@@ -9,6 +9,5 @@ public class Main {
         range.getIntervalsIntersection(3, 5);
         range.getIntervalsJoin(3, 5);
         range.getIntervalsDifferences(3, 5);
-
     }
 }
