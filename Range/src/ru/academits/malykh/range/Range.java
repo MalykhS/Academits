@@ -33,64 +33,57 @@ public class Range {
         return number >= from && number <= to;
     }
 
-    public void getIntervalsIntersection(double from, double to) {
-        if (from > this.to) {
-            System.out.println(java.util.Optional.of(null));
+
+    public Range[] getIntervalsIntersection(Range range) {
+        if (from <= range.to && to >= range.from) {
+            if (range.from >= from && range.to <= to) { // 1.7 && 2.6
+                return new Range[]{new Range(range.from, range.to)};
+            }
+            if (range.from < from && range.to <= to) { // 1.7 && -2.3
+                return new Range[]{new Range(from, range.to)};
+            }
+            if (range.from <= from && range.to > to) { // 1.7 && -2.9
+                return new Range[]{new Range(from, to)};
+            }
+            if (range.from > from && range.to > to) { //1.7 && 2.9
+                return new Range[]{new Range(range.from, to)};
+            }
+        }
+        return null;
+    }
+
+    public Range[] getIntervalsJoin(Range range) {
+        if (from <= range.to && to >= range.from) { //1.7 && 3.9
+            double min = Math.min(from, range.from);
+            double max = Math.max(to, range.to);
+            return new Range[]{new Range(min, max)};
+        } else if (range.from > to) {
+            return new Range[]{new Range(from, to), new Range(range.from, range.to)};
         } else {
-            if (to < this.to && from > this.from) {
-                System.out.printf("Интервал пересечения равен: (%s, %s)\n", from, to);
-            }
-            if (to > this.to && from < this.from) {
-                System.out.printf("Интервал пересечения равен: (%s, %s)\n", this.from, this.to);
-            }
-            if (to > this.to && from > this.from) {
-                System.out.printf("Интервал пересечения равен: (%s, %s)\n", from, this.to);
-            }
-            if (to < this.to && from < this.from) {
-                System.out.printf("Интервал пересечения равен: (%s, %s)\n", this.from, to);
-            }
+            return new Range[]{new Range(range.from, range.to), new Range(from, to)};
         }
     }
 
-    public void getIntervalsJoin(double from, double to) {
-        if (from < this.to) {
-            if (from <= this.from && to >= this.to) { //(1.7) && (-2.9),
-                System.out.printf("Интервал объединения равен: (%s, %s)\n", from, to);
+    public Range[] getIntervalsDifferences(Range range) {
+        if (from <= range.to && to >= range.from) {
+            if (range.from > from && range.to > to) {
+                return new Range[]{new Range(from, range.from)};
             }
-            if (from <= this.from && to <= this.to) { // (1.7) && (-2.5)
-                System.out.printf("Интервал объединения равен: (%s, %s)\n", from, this.to);
+            if (range.from < from && range.to < to) {
+                return new Range[]{new Range(range.to, to)};
             }
-            if (from > this.from && to < this.to) { //1.7 && 2.4
-                System.out.printf("Интервал объединения равен: (%s, %s)\n", this.from, this.to);
+            if (range.from > from && range.to < to) {
+                return new Range[]{new Range(from, range.from), new Range(range.to, to)};
+            }
+            if (range.from <= from && range.to >= to) {
+                return null;
             }
         }
-        if (from == this.to || (from >= this.from && to > this.to)) { // (1.7) && (2.9)
-            System.out.printf("Интервал объединения равен: (%s, %s)\n", this.from, to);
-        }
-        if (from > this.to) {
-            System.out.printf("Интервал объединения равен: (%s, %s) и (%s, %s)\n", this.from, this.to, from, to);
-        }
-
+        return new Range[]{new Range(from, to)};
     }
 
-    public void getIntervalsDifferences(double from, double to) {
-        if (from < this.to) { //1.7 && 3.5
-            if (from > this.from && to < this.to) { //&& to < this.to) {
-                System.out.printf("Разность интервалов равна: (%s, %s) и (%s, %s)\n", this.from, from, to, this.to);
-            }
-            if (from > this.from && to > this.to) { //1.7 && 3.9
-                System.out.printf("Разность интервалов равна: (%s, %s)\n", this.from, from);
-            }
-            if (from < this.from && to > this.from) { //1.7 && 0.6
-                System.out.printf("Разность интервалов равна: (%s, %s)\n", to, this.to);
-            }
-        }
-        if (from > this.to || to < this.from || this.from == to) {
-            System.out.printf("Разность интервалов равна: (%s, %s)\n", this.from, this.to); // 1.7 && -5.0
-        }
-        if ((from < this.from && to > this.to) || from == this.from || this.to == to ||
-                (from == this.from && this.to == to)) {
-            System.out.println("Разность интервалов равна пустому множеству!");
-        }
+    @Override
+    public String toString() {
+        return this.from + " " + this.to;
     }
 }
