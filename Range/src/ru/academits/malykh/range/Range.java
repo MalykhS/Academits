@@ -29,31 +29,29 @@ public class Range {
         return to - from;
     }
 
-    public boolean isInside(double number) {   //(1,5) && (3,9)
+    public boolean isInside(double number) {
         return number >= from && number <= to;
     }
 
 
     public Range getIntersection(Range range) {
-        if (from <= range.to && to >= range.from && range.from != to && from != range.to) {
-            if (range.from >= from && range.to <= to) { // 1.7 && 2.6
-                return new Range(range.from, range.to);//new Range[]{new Range(range.from, range.to)};
+        if (from < range.to && to > range.from) {
+            if (range.from >= from && range.to <= to) {
+                return new Range(range.from, range.to);
             }
-            if (range.from < from && range.to <= to) { // 1.7 && -2.3
-                return new Range(from, range.to);//[]{new Range(from, range.to)};
+            if (range.from < from && range.to <= to) {
+                return new Range(from, range.to);
             }
-            if (range.from <= from && range.to > to) { // 1.7 && -2.9
-                return new Range(from, to);//[]{new Range(from, to)};
+            if (range.from <= from && range.to > to) {
+                return new Range(from, to);
             }
-            if (range.from > from && range.to > to) { //1.7 && 2.9
-                return new Range(range.from, to);//[]{new Range(range.from, to)};
-            }
+            return new Range(range.from, to);
         }
         return null;
     }
 
     public Range[] getJoin(Range range) {
-        if (from <= range.to && to >= range.from) { //1.7 && 3.9
+        if (from <= range.to && to >= range.from) {
             double min = Math.min(from, range.from);
             double max = Math.max(to, range.to);
             return new Range[]{new Range(min, max)};
@@ -69,15 +67,13 @@ public class Range {
             if (range.from > from && range.to >= to) {
                 return new Range[]{new Range(from, range.from)};
             }
-            if (range.from < from && range.to < to) {
+            if (range.from <= from && range.to < to) {
                 return new Range[]{new Range(range.to, to)};
             }
             if (range.from > from && range.to < to) {
                 return new Range[]{new Range(from, range.from), new Range(range.to, to)};
             }
-            if (range.from <= from && range.to >= to) {
-                return new Range[] {};
-            }
+            return new Range[]{};
         }
         return new Range[]{new Range(from, to)};
     }
