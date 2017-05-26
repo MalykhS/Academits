@@ -1,11 +1,18 @@
 package ru.academits.malykh.shapes;
 
-public class Circle extends Shapes {
+public class Circle extends Shape {
     private double radius;
 
     public Circle(double radius) {
-        super.getWidth();
         this.radius = radius;
+    }
+
+    public double getWidth() {
+        return 2 * radius;
+    }
+
+    public double getHeight() {
+        return 2 * radius;
     }
 
     public double getArea() {

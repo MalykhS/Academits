@@ -1,12 +1,14 @@
 package ru.academits.malykh.shapes;
 
-
-public class Square extends Shapes {
+public class Square extends Shape {
     private double length;
 
     public Square(double length) {
-        super.getWidth();
         this.length = length;
+    }
+
+    public double getWidth() {
+        return length;
     }
 
     public double getArea() {
@@ -16,6 +18,5 @@ public class Square extends Shapes {
     public double getPerimeter() {
         return 4 * length;
     }
-
 
 }
