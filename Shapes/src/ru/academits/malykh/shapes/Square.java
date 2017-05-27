@@ -11,6 +11,10 @@ public class Square extends Shape {
         return length;
     }
 
+    public double getHeight() {
+        return length;
+    }
+
     public double getArea() {
         return Math.pow(length, 2);
     }
