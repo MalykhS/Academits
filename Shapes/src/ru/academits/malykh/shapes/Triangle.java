@@ -7,9 +7,6 @@ public class Triangle extends Shape {
     private double y2;
     private double x3;
     private double y3;
-    private double a;
-    private double b;
-    private double c;
 
     public Triangle(double x1, double y1, double x2, double y2, double x3, double y3) {
         this.x1 = x1;
@@ -20,17 +17,6 @@ public class Triangle extends Shape {
         this.y3 = y3;
     }
 
-    private double getDistance(double side) {
-        if (side == a) {
-            return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
-        } else if (side == b) {
-            return Math.sqrt(Math.pow(x3 - x2, 2) + Math.pow(y3 - y2, 2));
-        } else if (side == c) {
-            return Math.sqrt(Math.pow(x3 - x2, 2) + Math.pow(y3 - y2, 2));
-        }
-        return side;
-    }
-
     public double getWidth() {
         return Math.max(x1, Math.max(x2, x3)) - Math.min(x1, Math.min(x2, x3));
     }
@@ -39,17 +25,32 @@ public class Triangle extends Shape {
         return Math.max(y1, Math.max(y2, y3)) - Math.min(y1, Math.min(y2, y3));
     }
 
-    private double getSemiPerimeter() {
-        return (getDistance(a) + getDistance(b) + getDistance(c)) / 2;
+    private static double getDistance(double x1, double y1, double x2, double y2) {
+        return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+    }
+
+    private double getDistanceA() {
+        return getDistance(x1, y1, x2, y2);
+    }
+
+    private double getDistanceB() {
+        return getDistance(x2, y2, x3, y3);
+    }
+
+    private double getDistanceC() {
+        return getDistance(x1, y1, x3, y3);
     }
 
     public double getArea() {
-        return Math.sqrt(getSemiPerimeter() * (getSemiPerimeter() - getDistance(a)) * (getSemiPerimeter() - getDistance(b)) *
-                (getSemiPerimeter() - getDistance(c)));
+        double getDistanceA = getDistanceA();
+        double getDistanceB = getDistanceB();
+        double getDistanceC = getDistanceC();
+        double semiPerimeter = (getDistanceA + getDistanceB + getDistanceC) / 2;
+        return Math.sqrt(semiPerimeter * (semiPerimeter - getDistanceA) * (semiPerimeter - getDistanceB) *
+                (semiPerimeter - getDistanceC));
     }
 
     public double getPerimeter() {
-        return getDistance(a) + getDistance(b) + getDistance(c);
+        return getDistanceA() + getDistanceB() + getDistanceC();
     }
-
 }
