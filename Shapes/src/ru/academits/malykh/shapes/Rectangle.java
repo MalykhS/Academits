@@ -1,12 +1,18 @@
 package ru.academits.malykh.shapes;
 
-public class Rectangle extends Shape {
+public class Rectangle implements Shape {
     private double width;
     private double length;
+    private String name;
 
-    public Rectangle(double width, double length) {
+    public Rectangle(double width, double length, String name) {
         this.width = width;
         this.length = length;
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public double getWidth() {
@@ -23,5 +29,9 @@ public class Rectangle extends Shape {
 
     public double getPerimeter() {
         return 2 * (length + width);
+    }
+
+    public String toString() {
+        return name;
     }
 }
