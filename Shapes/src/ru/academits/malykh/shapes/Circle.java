@@ -1,6 +1,6 @@
 package ru.academits.malykh.shapes;
 
-public class Circle extends Shape {
+public class Circle implements Shape {
     private double radius;
 
     public Circle(double radius) {
@@ -16,10 +16,14 @@ public class Circle extends Shape {
     }
 
     public double getArea() {
-        return radius * Math.pow(Math.PI, 2);
+        return Math.PI * Math.pow(radius, 2);
     }
 
     public double getPerimeter() {
         return 2 * Math.PI * radius;
+    }
+
+    public String toString() {
+        return String.valueOf(this.getClass().getSimpleName()) + " " + getArea();
     }
 }

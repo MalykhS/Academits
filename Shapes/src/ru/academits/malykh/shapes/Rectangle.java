@@ -1,6 +1,6 @@
 package ru.academits.malykh.shapes;
 
-public class Rectangle extends Shape {
+public class Rectangle implements Shape {
     private double width;
     private double length;
 
@@ -24,5 +24,8 @@ public class Rectangle extends Shape {
     public double getPerimeter() {
         return 2 * (length + width);
     }
-}
 
+    public String toString() {
+        return String.valueOf(this.getClass().getSimpleName()) + " " + getArea();
+    }
+}

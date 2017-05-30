@@ -1,21 +1,13 @@
 package ru.academits.malykh.shapes;
 
-public class Shape {
+public interface Shape {
 
-    public double getWidth() {
-        return 0;
-    }
+    double getWidth();
 
-    public double getHeight() {
-        return 0;
-    }
+    double getHeight();
 
-    public double getArea() {
-        return 0;
-    }
+    double getArea();
 
-    public double getPerimeter() {
-        return 0;
-    }
+    double getPerimeter();
 
 }
