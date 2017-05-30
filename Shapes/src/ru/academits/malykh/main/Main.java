@@ -2,8 +2,6 @@ package ru.academits.malykh.main;
 
 import ru.academits.malykh.shapes.*;
 
-import java.util.Arrays;
-
 public class Main {
     public static void main(String[] args) {
         Shape[] shapes = {new Rectangle(6, 4), new Square(3),
