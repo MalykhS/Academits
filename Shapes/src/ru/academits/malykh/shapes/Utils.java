@@ -1,27 +1,30 @@
 package ru.academits.malykh.shapes;
 
-public class Utils implements Shape {
-    private String name;
+public class Utils implements Shape{
 
-    public double getMaxArea(Shape[] shapes) {
+    public String getMaxArea(Shape[] shapes) {
         double max = 0;
+        String s = " ";
         for (Shape shape : shapes) {
             if (shape.getArea() > max) {
                 max = shape.getArea();
+                s = shape.toString();
             }
         }
-        return max;
+        return s;
     }
 
-    @Override
-    public String toString() {
-        return name;
-    }
-
-
-    @Override
-    public String getName() {
-        return name;
+    public double getSecondMaxPerimeter(Shape[] shapes) {
+        double max = 0;
+        String s = " ";
+        double second = 0;
+        for (Shape shape: shapes) {
+            if (shape.getPerimeter() > max) {
+                second = max;
+                max = shape.getPerimeter();
+            }
+        }
+        return second;
     }
 
     @Override

@@ -2,15 +2,9 @@ package ru.academits.malykh.shapes;
 
 public class Square implements Shape {
     private double length;
-    private String name;
 
-    public Square(double length, String name) {
+    public Square(double length) {
         this.length = length;
-        this.name = name;
-    }
-
-    public String getName() {
-        return name;
     }
 
     public double getWidth() {
@@ -30,8 +24,6 @@ public class Square implements Shape {
     }
 
     public String toString() {
-        return getArea() + " " + name;
+        return String.valueOf(this.getClass().getSimpleName()) + " " + getArea();
     }
-
-
 }

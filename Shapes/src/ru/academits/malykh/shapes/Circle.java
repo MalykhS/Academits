@@ -2,15 +2,9 @@ package ru.academits.malykh.shapes;
 
 public class Circle implements Shape {
     private double radius;
-    private String name;
 
-    public Circle(double radius, String name) {
+    public Circle(double radius) {
         this.radius = radius;
-        this.name = name;
-    }
-
-    public String getName() {
-        return name;
     }
 
     public double getWidth() {
@@ -30,6 +24,6 @@ public class Circle implements Shape {
     }
 
     public String toString() {
-        return name;
+        return String.valueOf(this.getClass().getSimpleName()) + " " + getArea();
     }
 }

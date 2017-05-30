@@ -3,16 +3,10 @@ package ru.academits.malykh.shapes;
 public class Rectangle implements Shape {
     private double width;
     private double length;
-    private String name;
 
-    public Rectangle(double width, double length, String name) {
+    public Rectangle(double width, double length) {
         this.width = width;
         this.length = length;
-        this.name = name;
-    }
-
-    public String getName() {
-        return name;
     }
 
     public double getWidth() {
@@ -32,6 +26,6 @@ public class Rectangle implements Shape {
     }
 
     public String toString() {
-        return name;
+        return String.valueOf(this.getClass().getSimpleName()) + " " + getArea();
     }
 }
