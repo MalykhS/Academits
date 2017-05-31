@@ -17,7 +17,6 @@ public class Triangle implements Shape {
         this.y3 = y3;
     }
 
-
     public double getWidth() {
         return Math.max(x1, Math.max(x2, x3)) - Math.min(x1, Math.min(x2, x3));
     }
@@ -56,6 +55,6 @@ public class Triangle implements Shape {
     }
 
     public String toString() {
-        return String.valueOf(this.getClass().getSimpleName()) + " " + getArea();
+        return String.valueOf(getArea() + " " + x1 + " " + y1 + " " + x2 + " " + y2 + " " + x3 + " " + y3);
     }
 }

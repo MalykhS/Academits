@@ -24,6 +24,6 @@ public class Square implements Shape {
     }
 
     public String toString() {
-        return String.valueOf(this.getClass().getSimpleName()) + " " + getArea();
+        return String.valueOf(getArea() + " " + length);
     }
 }
