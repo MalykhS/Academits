@@ -1,5 +1,7 @@
 package ru.academits.malykh.shapes;
 
+import java.util.Objects;
+
 public class Circle implements Shape {
     private double radius;
 
@@ -23,7 +25,31 @@ public class Circle implements Shape {
         return 2 * Math.PI * radius;
     }
 
+    /* public String toString() {
+         return String.valueOf(this.getClass().getSimpleName()) + " " + getArea() + " " + radius;
+     } */
+    @Override
     public String toString() {
-        return String.valueOf(getArea() + " " + radius);
+        return this.getClass().getSimpleName();//String.valueOf(getArea() + " " + getPerimeter());
+    }
+
+    @Override
+
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+
+        if ((obj == null) || (obj.getClass() != this.getClass())) {
+            return false;
+        }
+        Circle otherObj = (Circle) obj;
+        return this.radius == otherObj.radius;
+    }
+
+    @Override
+
+    public int hashCode() {
+        return Objects.hash(radius);
     }
 }

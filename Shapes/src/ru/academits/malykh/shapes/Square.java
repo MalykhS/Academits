@@ -1,5 +1,7 @@
 package ru.academits.malykh.shapes;
 
+import java.util.Objects;
+
 public class Square implements Shape {
     private double length;
 
@@ -23,7 +25,29 @@ public class Square implements Shape {
         return 4 * length;
     }
 
+    @Override
     public String toString() {
-        return String.valueOf(getArea() + " " + length);
+        return this.getClass().getSimpleName();//String.valueOf(getArea() + " " + getPerimeter());
+    }
+
+
+    @Override
+
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+
+        if ((obj == null) || (obj.getClass() != this.getClass())) {
+            return false;
+        }
+        Square otherObj = (Square) obj;
+        return length == otherObj.length;
+    }
+
+    @Override
+
+    public int hashCode() {
+        return Objects.hash(length);
     }
 }
