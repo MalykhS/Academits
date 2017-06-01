@@ -30,7 +30,6 @@ public class Square implements Shape {
 
 
     @Override
-
     public boolean equals(Object obj) {
         if (obj == this) {
             return true;
@@ -44,7 +43,6 @@ public class Square implements Shape {
     }
 
     @Override
-
     public int hashCode() {
         int result = 17;
         int n = 37;

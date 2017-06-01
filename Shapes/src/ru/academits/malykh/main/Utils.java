@@ -4,7 +4,7 @@ import ru.academits.malykh.shapes.Shape;
 
 import java.util.Arrays;
 
-class Utils  {
+class Utils {
 
     static Shape getMaxArea(Shape[] shapes) {
         Arrays.sort(shapes, new SortByAreaComparator());

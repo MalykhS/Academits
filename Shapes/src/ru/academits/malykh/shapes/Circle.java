@@ -25,11 +25,10 @@ public class Circle implements Shape {
 
     @Override
     public String toString() {
-        return String.valueOf(this.getClass().getSimpleName()) + " " + getArea() + " " + radius;
+        return this.getClass().getSimpleName() + " " + getArea() + " " + radius;
     }
 
     @Override
-
     public boolean equals(Object obj) {
         if (obj == this) {
             return true;
@@ -43,7 +42,6 @@ public class Circle implements Shape {
     }
 
     @Override
-
     public int hashCode() {
         int result = 17;
         int n = 37;

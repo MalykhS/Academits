@@ -27,11 +27,10 @@ public class Rectangle implements Shape {
 
     @Override
     public String toString() {
-        return String.valueOf(this.getClass().getSimpleName()) + " " + getArea() + " " + width + " " + length;
+        return this.getClass().getSimpleName() + " " + getArea() + " " + width + " " + length;
     }
 
     @Override
-
     public boolean equals(Object obj) {
         if (obj == this) {
             return true;
@@ -45,7 +44,6 @@ public class Rectangle implements Shape {
     }
 
     @Override
-
     public int hashCode() {
         int result = 17;
         int n = 37;

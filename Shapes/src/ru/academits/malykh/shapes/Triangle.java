@@ -56,14 +56,12 @@ public class Triangle implements Shape {
     }
 
     @Override
-
     public String toString() {
-        return String.valueOf(this.getClass().getSimpleName()) + " " + getArea() + " " + x1 + " " + y1 + " " + x2 +
+        return this.getClass().getSimpleName() + " " + getArea() + " " + x1 + " " + y1 + " " + x2 +
                 " " + y2 + " " + x3 + " " + y3;
     }
 
     @Override
-
     public boolean equals(Object obj) {
         if (obj == this) {
             return true;
@@ -78,7 +76,6 @@ public class Triangle implements Shape {
     }
 
     @Override
-
     public int hashCode() {
         int result = 17;
         int n = 37;
