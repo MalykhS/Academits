@@ -10,9 +10,9 @@ public class Main {
 
         System.out.println(Arrays.toString(shapes));
         System.out.println();
-        System.out.println(Utils.getMax(shapes));
+        System.out.println(Utils.getMaxArea(shapes));
         System.out.println();
-        System.out.println(Utils.getPer(shapes));
+        System.out.println(Utils.getSecondPerimeter(shapes));
     }
 
 }

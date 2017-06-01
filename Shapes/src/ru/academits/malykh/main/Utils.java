@@ -53,12 +53,12 @@ public class Utils implements Shape {
         }
     }
 
-    static String getMax(Shape[] examples) {
+    static String getMaxArea(Shape[] examples) {
         Arrays.sort(examples, new SortByArea());
         return Arrays.toString(new Shape[]{examples[examples.length - 1]});
     }
 
-    static String getPer(Shape[] examples) {
+    static String getSecondPerimeter(Shape[] examples) {
         Arrays.sort(examples, new SortByPerimeter());
         return Arrays.toString(new Shape[]{examples[examples.length - 2]});
     }
