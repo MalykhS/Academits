@@ -17,6 +17,7 @@ public class Triangle implements Shape {
         this.y3 = y3;
     }
 
+
     public double getWidth() {
         return Math.max(x1, Math.max(x2, x3)) - Math.min(x1, Math.min(x2, x3));
     }
@@ -54,7 +55,39 @@ public class Triangle implements Shape {
         return getDistanceA() + getDistanceB() + getDistanceC();
     }
 
+    @Override
+
     public String toString() {
-        return String.valueOf(getArea() + " " + x1 + " " + y1 + " " + x2 + " " + y2 + " " + x3 + " " + y3);
+        return String.valueOf(this.getClass().getSimpleName()) + " " + getArea() + " " + x1 + " " + y1 + " " + x2 +
+                " " + y2 + " " + x3 + " " + y3;
+    }
+
+    @Override
+
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+
+        if ((obj == null) || (obj.getClass() != this.getClass())) {
+            return false;
+        }
+        Triangle otherObj = (Triangle) obj;
+        return this.x1 == otherObj.x1 && this.y1 == otherObj.y1 && this.x2 == otherObj.x2 && this.y2 == otherObj.y2 &&
+                this.x3 == otherObj.x3 && this.y3 == otherObj.y3;
+    }
+
+    @Override
+
+    public int hashCode() {
+        int result = 17;
+        int n = 37;
+        result = result * n + (int) x1;
+        result = result * n + (int) y1;
+        result = result * n + (int) x2;
+        result = result * n + (int) y2;
+        result = result * n + (int) x3;
+        result = result * n + (int) y3;
+        return result;
     }
 }

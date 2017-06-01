@@ -23,7 +23,31 @@ public class Square implements Shape {
         return 4 * length;
     }
 
+    @Override
     public String toString() {
-        return String.valueOf(getArea() + " " + length);
+        return this.getClass().getSimpleName() + " " + (getArea() + " " + length);
+    }
+
+
+    @Override
+
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+
+        if ((obj == null) || (obj.getClass() != this.getClass())) {
+            return false;
+        }
+        Square otherObj = (Square) obj;
+        return length == otherObj.length;
+    }
+
+    @Override
+
+    public int hashCode() {
+        int result = 17;
+        int n = 37;
+        return (int) (result * n + length);
     }
 }

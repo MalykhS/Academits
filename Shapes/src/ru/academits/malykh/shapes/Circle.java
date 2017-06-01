@@ -23,7 +23,31 @@ public class Circle implements Shape {
         return 2 * Math.PI * radius;
     }
 
+    @Override
     public String toString() {
-        return String.valueOf(getArea() + " " + radius);
+        return String.valueOf(this.getClass().getSimpleName()) + " " + getArea() + " " + radius;
+    }
+
+    @Override
+
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+
+        if ((obj == null) || (obj.getClass() != this.getClass())) {
+            return false;
+        }
+        Circle otherObj = (Circle) obj;
+        return this.radius == otherObj.radius;
+    }
+
+    @Override
+
+    public int hashCode() {
+        int result = 17;
+        int n = 37;
+        result = result * n + (int) radius;
+        return result;
     }
 }

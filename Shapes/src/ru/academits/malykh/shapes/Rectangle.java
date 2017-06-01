@@ -25,7 +25,32 @@ public class Rectangle implements Shape {
         return 2 * (length + width);
     }
 
+    @Override
     public String toString() {
-        return String.valueOf(getArea() + " " + length + " " + width);
+        return String.valueOf(this.getClass().getSimpleName()) + " " + getArea() + " " + width + " " + length;
+    }
+
+    @Override
+
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+
+        if ((obj == null) || (obj.getClass() != this.getClass())) {
+            return false;
+        }
+        Rectangle otherObj = (Rectangle) obj;
+        return this.length == otherObj.length && this.width == otherObj.width;
+    }
+
+    @Override
+
+    public int hashCode() {
+        int result = 17;
+        int n = 37;
+        result = result * n + (int) length;
+        result = result * n + (int) width;
+        return result;
     }
 }
