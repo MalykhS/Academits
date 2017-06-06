@@ -4,18 +4,17 @@ import java.util.Arrays;
 
 public class Vector {
     private double[] array;
-    private int n;
 
     public Vector(int n) {
         if (n <= 0) {
             throw new IllegalArgumentException("n is 0 or less than 0");
+        } else {
+            this.array = new double[n];
         }
-        this.n = n;
     }
 
     public Vector(Vector vector) {
         this.array = vector.array;
-        this.n = vector.n;
     }
 
     public Vector(double... array) {
@@ -24,13 +23,13 @@ public class Vector {
 
     public Vector(int n, double[] array) {
         if (array.length < n) {
-            for (int i = 0; i < array.length; i++) {
-                array[i] = 0;
-            }
+            this.array = new double[n];
+        } else {
+            this.array = array;
         }
     }
 
-    public int getSize() {
+    public int getSize(int n) {
         return n;
     }
 
@@ -49,32 +48,81 @@ public class Vector {
         return array.length;
     }
 
-    public Vector getAdd(Vector v1, Vector v2) {
-        if (v1.getLength() == v2.getLength()) {
-            for (int i = 0; i < v1.getLength(); i++) {
-                v1.array[i] += v2.array[i];
+    public Vector sumVectorsDifferentDimension(Vector v2) {
+        if (this.array.length < v2.getLength()) {
+            this.array = Arrays.copyOf(this.array, v2.array.length);
+            for (int i = 0; i < this.array.length; i++) {
+                this.array[i] += v2.array[i];
+            }
+            return new Vector(this.array);
+        } else if (this.array.length > v2.getLength()) {
+            for (int i = 0; i < v2.array.length; i++) {
+                this.array[i] += v2.array[i];
             }
         }
-        return v1;
+        return new Vector(this.array);
     }
 
-    public Vector getSub(Vector v1, Vector v2) {
-        if (v1.getLength() == v2.getLength()) {
-            for (int i = 0; i < v1.getLength(); i++) {
+    public Vector subVectorsDifferentDimension(Vector v1, Vector v2) {
+        if (v1.getLength() < v2.getLength()) {
+            v1.array = Arrays.copyOf(v1.array, v2.array.length);
+            for (int i = 0; i < v1.array.length; i++) {
+                v1.array[i] -= v2.array[i];
+            }
+            return v1;
+        } else if (v1.getLength() > v2.getLength()) {
+            for (int i = 0; i < v2.array.length; i++) {
                 v1.array[i] -= v2.array[i];
             }
         }
         return v1;
     }
 
-    public Vector getMultiplication(Vector v1, double number) {
+    public Vector multVectorsDifferentDimension(Vector v1, Vector v2) {
+        if (v1.getLength() < v2.getLength()) {
+            v1.array = Arrays.copyOf(v1.array, v2.array.length);
+            for (int i = 0; i < v1.array.length; i++) {
+                v1.array[i] *= v2.array[i];
+            }
+            return v1;
+        } else if (v1.getLength() > v2.getLength()) {
+            for (int i = 0; i < v2.array.length; i++) {
+                v1.array[i] *= v2.array[i];
+            }
+        }
+        return v1;
+    }
+
+    public Vector add(Vector v2) {
+        if (this.array.length == v2.getLength()) {
+            for (int i = 0; i < this.array.length; i++) {
+                this.array[i] += v2.array[i];
+            }
+        } else {
+            sumVectorsDifferentDimension(v2);
+        }
+        return new Vector(this.array);
+    }
+
+    public Vector sub(Vector v1, Vector v2) {
+        if (v1.getLength() == v2.getLength()) {
+            for (int i = 0; i < v1.getLength(); i++) {
+                v1.array[i] -= v2.array[i];
+            }
+        } else {
+            subVectorsDifferentDimension(v1, v2);
+        }
+        return v1;
+    }
+
+    public Vector mult(Vector v1, double number) {
         for (int i = 0; i < v1.getLength(); i++) {
             v1.array[i] *= number;
         }
         return v1;
     }
 
-    public Vector getReverse(Vector v1) {
+    public Vector reverse(Vector v1) {
         for (int i = 0; i < v1.getLength(); i++) {
             v1.array[i] *= -1;
         }
@@ -82,7 +130,7 @@ public class Vector {
     }
 
 
-    public static Vector getAddition(Vector v1, Vector v2) {
+    public static Vector addition(Vector v1, Vector v2) {
         Vector v3 = new Vector(v1);
         if (v1.getLength() == v2.getLength()) { //|| (v1.getLength() > v2.getLength())) {
             for (int i = 0; i < v1.getLength(); i++) {
@@ -92,7 +140,7 @@ public class Vector {
         return v3;
     }
 
-    public static Vector getSubtraction(Vector v1, Vector v2) {
+    public static Vector subtraction(Vector v1, Vector v2) {
         Vector v3 = new Vector(v1);
         if (v1.getLength() == v2.getLength()) {
             for (int i = 0; i < v3.getLength(); i++) {
@@ -102,7 +150,7 @@ public class Vector {
         return v3;
     }
 
-    public static Vector getScalarMultiplication(Vector v1, Vector v2) {
+    public static Vector scalarMultiplication(Vector v1, Vector v2) {
         Vector v3 = new Vector(v1);
         for (int i = 0; i < v3.getLength(); i++) {
             v3.array[i] = v1.array[i] * v2.array[i];
@@ -126,16 +174,12 @@ public class Vector {
 
         Vector vector = (Vector) o;
 
-        if (n != vector.n) {
-            return false;
-        }
         return Arrays.equals(array, vector.array);
     }
 
     @Override
     public int hashCode() {
-        int result = Arrays.hashCode(array);
-        result = 31 * result + n;
-        return result;
+        return Arrays.hashCode(array);
     }
 }
+
