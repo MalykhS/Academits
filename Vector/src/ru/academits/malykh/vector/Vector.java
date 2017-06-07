@@ -14,28 +14,23 @@ public class Vector {
     }
 
     public Vector(Vector vector) {
-        this.array = vector.array;
+        this.array = Arrays.copyOf(vector.array, vector.array.length);
     }
 
     public Vector(double... array) {
-        int size = this.getLength();
-        array = new double[size];
-        System.arraycopy(this.array, 0, array, 0, size);
+        this.array = Arrays.copyOf(array, array.length);
     }
 
     public Vector(int n, double[] array) {
-        if (array.length < n) {
-            this.array = new double[n];
+        if (n <= 0) {
+            throw new IllegalArgumentException("n is 0 or less than 0");
         } else {
-            this.array = array;
+            this.array = Arrays.copyOf(array, n);
         }
     }
 
-    public int getSize(int n) {
-        if (null == array) {
-            return 0;
-        }
-        return n;
+    public int getSize() {
+        return this.array.length;
     }
 
     public double getElement(int index) {
@@ -46,155 +41,77 @@ public class Vector {
         this.array[index] = value;
     }
 
-    public int getLength() {
-        if (null == array) {
-            return 0;
+    public double getLength() {
+        double sum = 0;
+        for (double e : this.array) {
+            sum += Math.pow(e, 2);
         }
-        return array.length;
-    }
-
-    public Vector sumVectorsDifferentDimension(Vector v2) {
-        if (this.array == null) {
-            return v2;
-        }
-
-        if (v2 == null) {
-            return new Vector(this.array);
-        }
-
-        if (this.array.length < v2.getLength()) {
-            this.array = Arrays.copyOf(this.array, v2.array.length);
-            for (int i = 0; i < this.array.length; i++) {
-                this.array[i] += v2.array[i];
-            }
-            return new Vector(this.array);
-        } else if (this.array.length > v2.getLength()) {
-            for (int i = 0; i < v2.array.length; i++) {
-                this.array[i] += v2.array[i];
-            }
-        }
-        return new Vector(this.array);
-    }
-
-    public Vector subVectorsDifferentDimension(Vector v2) {
-        if (this.array == null) {
-            return v2;
-        }
-
-        if (v2 == null) {
-            return new Vector(this.array);
-        }
-
-        if (this.array.length < v2.getLength()) {
-            this.array = Arrays.copyOf(this.array, v2.array.length);
-            for (int i = 0; i < this.array.length; i++) {
-                this.array[i] -= v2.array[i];
-            }
-            return new Vector(this.array);
-        } else if (this.array.length > v2.getLength()) {
-            for (int i = 0; i < v2.array.length; i++) {
-                this.array[i] -= v2.array[i];
-            }
-        }
-        return new Vector(this.array);
+        return Math.sqrt(sum);
     }
 
     public Vector add(Vector v2) {
-        if (this.array == null) {
-            return v2;
-        }
-
-        if (v2 == null) {
-            return new Vector(this.array);
-        }
-
-        if (this.array.length == v2.getLength()) {
-            for (int i = 0; i < this.array.length; i++) {
+        if (this.array.length >= v2.array.length) {
+            for (int i = 0; i < v2.array.length; i++) {
                 this.array[i] += v2.array[i];
             }
         } else {
-            sumVectorsDifferentDimension(v2);
+            this.array = Arrays.copyOf(this.array, v2.array.length);
+            for (int i = 0; i < this.array.length; i++) {
+                this.array[i] += v2.array[i];
+            }
         }
-        return new Vector(this.array);
+        return this;
     }
 
     public Vector sub(Vector v2) {
-        if (this.array == null) {
-            return v2;
-        }
-
-        if (v2 == null) {
-            return new Vector(this.array);
-        }
-
-        if (this.array.length == v2.getLength()) {
-            for (int i = 0; i < this.array.length; i++) {
+        if (this.array.length >= v2.array.length) {
+            for (int i = 0; i < v2.array.length; i++) {
                 this.array[i] -= v2.array[i];
             }
         } else {
-            subVectorsDifferentDimension(v2);
+            this.array = Arrays.copyOf(this.array, v2.array.length);
+            for (int i = 0; i < this.array.length; i++) {
+                this.array[i] -= v2.array[i];
+            }
         }
-        return new Vector(this.array);
+        return this;
     }
 
-    public Vector mult(Vector v1, double number) {
-        for (int i = 0; i < v1.getLength(); i++) {
-            v1.array[i] *= number;
+    public Vector multiplication(double number) {
+        for (int i = 0; i < this.array.length; i++) {
+            this.array[i] *= number;
         }
-        return v1;
+        return this;
     }
 
-    public Vector reverse(Vector v1) {
-        for (int i = 0; i < v1.getLength(); i++) {
-            v1.array[i] *= -1;
-        }
-        return v1;
+    public Vector reverse() {
+        return multiplication(-1);
     }
 
     public static Vector addition(Vector v1, Vector v2) {
-        if (v1 == null) {
-            return v2;
-        }
-
-        if (v2 == null) {
-            return v1;
-        }
-
-        Vector v3 = new Vector(v1);
-        if (v1.getLength() == v2.getLength()) {
-            for (int i = 0; i < v1.getLength(); i++) {
-                v3.array[i] = v1.array[i] + v2.array[i];
-            }
-        } else {
-            v3 = v1.add(v2);
-        }
-        return v3;
+        return new Vector(v1.add(v2));
     }
 
     public static Vector subtraction(Vector v1, Vector v2) {
-        if (v1 == null) {
-            return v2;
-        }
-
-        if (v2 == null) {
-            return v1;
-        }
-
-        Vector v3 = new Vector(v1);
-        if (v1.getLength() == v2.getLength()) {
-            for (int i = 0; i < v3.getLength(); i++) {
-                v3.array[i] = v1.array[i] - v2.array[i];
-            }
-        } else {
-            v3 = v1.sub(v2);
-        }
-        return v3;
+        return new Vector(v1.sub(v2));
     }
 
-    public static Vector scalarMultiplication(Vector v1, Vector v2) {
-        Vector v3 = new Vector(v1);
-        for (int i = 0; i < v3.getLength(); i++) {
-            v3.array[i] = v1.array[i] * v2.array[i];
+    public static double scalar(double temp, Vector v1, Vector v2) {
+        double number = 0;
+        for (int i = 0; i < temp; i++) {
+            number += v1.array[i] * v2.array[i];
+        }
+        return number;
+    }
+
+    public static double scalarMultiplication(Vector v1, Vector v2) {
+        double v3;
+        double temp = v1.array.length;
+        double temp1 = v2.array.length;
+        if (v1.array.length >= v2.array.length) {
+            v3 = scalar(temp1, v1, v2);
+        } else {
+            v3 = scalar(temp, v1, v2);
         }
         return v3;
     }
