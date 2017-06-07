@@ -2,8 +2,6 @@ package ru.academits.malykh.vector;
 
 import java.util.Arrays;
 
-import static java.util.Arrays.copyOf;
-
 public class Vector {
     private double[] array;
 
@@ -16,27 +14,22 @@ public class Vector {
     }
 
     public Vector(Vector vector) {
-        this.array = copyOf(vector.array, vector.array.length);
+        this.array = Arrays.copyOf(vector.array, vector.array.length);
     }
 
     public Vector(double... array) {
-        this.array = copyOf(array, array.length);
+        this.array = Arrays.copyOf(array, array.length);
     }
 
     public Vector(int n, double[] array) {
-        if (array.length < n) {
-            this.array = new double[n];
-        } else if (n <= 0) {
+        if (n <= 0) {
             throw new IllegalArgumentException("n is 0 or less than 0");
         } else {
-            this.array = copyOf(array, n);
+            this.array = Arrays.copyOf(array, n);
         }
     }
 
     public int getSize() {
-        if (this.array == null) {
-            throw new NullPointerException();
-        }
         return this.array.length;
     }
 
@@ -49,29 +42,21 @@ public class Vector {
     }
 
     public double getLength() {
-        if (null == array) {
-            return 0;
-        }
         double sum = 0;
-        for (double anArray : this.array) {
-            sum += Math.pow(anArray, 2);
-            System.out.println(sum);
+        for (double e : this.array) {
+            sum += Math.pow(e, 2);
         }
         return Math.sqrt(sum);
     }
 
     public Vector add(Vector v2) {
-        if (this.array.length == v2.array.length) {
-            for (int i = 0; i < this.array.length; i++) {
-                this.array[i] += v2.array[i];
-            }
-        } else if (this.array.length < v2.array.length) {
-            this.array = copyOf(this.array, v2.array.length);
-            for (int i = 0; i < this.array.length; i++) {
+        if (this.array.length >= v2.array.length) {
+            for (int i = 0; i < v2.array.length; i++) {
                 this.array[i] += v2.array[i];
             }
         } else {
-            for (int i = 0; i < v2.array.length; i++) {
+            this.array = Arrays.copyOf(this.array, v2.array.length);
+            for (int i = 0; i < this.array.length; i++) {
                 this.array[i] += v2.array[i];
             }
         }
@@ -79,17 +64,13 @@ public class Vector {
     }
 
     public Vector sub(Vector v2) {
-        if (this.array.length == v2.array.length) {
-            for (int i = 0; i < this.array.length; i++) {
-                this.array[i] -= v2.array[i];
-            }
-        } else if (this.array.length < v2.array.length) {
-            this.array = copyOf(this.array, v2.array.length);
-            for (int i = 0; i < this.array.length; i++) {
-                this.array[i] -= v2.array[i];
-            }
-        } else if (this.array.length > v2.array.length) {
+        if (this.array.length >= v2.array.length) {
             for (int i = 0; i < v2.array.length; i++) {
+                this.array[i] -= v2.array[i];
+            }
+        } else {
+            this.array = Arrays.copyOf(this.array, v2.array.length);
+            for (int i = 0; i < this.array.length; i++) {
                 this.array[i] -= v2.array[i];
             }
         }
@@ -104,24 +85,32 @@ public class Vector {
     }
 
     public Vector reverse() {
-        for (int i = 0; i < this.array.length; i++) {
-            this.array[i] *= -1;
-        }
-        return this;
+        return multiplication(-1);
     }
 
     public static Vector addition(Vector v1, Vector v2) {
-        return v1.add(v2);
+        Vector v3;
+        v3 = v1.add(v2);
+        return v3;
     }
 
     public static Vector subtraction(Vector v1, Vector v2) {
-        return v1.sub(v2);
+        Vector v3;
+        v3 = v1.sub(v2);
+        return v3;
     }
 
     public static double scalarMultiplication(Vector v1, Vector v2) {
         double v3 = 0;
-        for (int i = 0; i < v1.array.length; i++) {
-            v3 += v1.array[i] * v2.array[i];
+        if (v1.array.length >= v2.array.length) {
+            for (int i = 0; i < v2.array.length; i++) {
+                v3 += v1.array[i] * v2.array[i];
+            }
+        } else {
+            v1.array = Arrays.copyOf(v1.array, v2.array.length);
+            for (int i = 0; i < v1.array.length; i++) {
+                v3 += v1.array[i] * v2.array[i];
+            }
         }
         return v3;
     }
