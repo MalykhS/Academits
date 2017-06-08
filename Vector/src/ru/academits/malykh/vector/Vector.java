@@ -89,29 +89,25 @@ public class Vector {
     }
 
     public static Vector addition(Vector v1, Vector v2) {
-        return new Vector(v1.add(v2));
+        Vector v3 = new Vector(v1);
+        return v3.add(v2);
     }
 
     public static Vector subtraction(Vector v1, Vector v2) {
-        return new Vector(v1.sub(v2));
-    }
-
-    public static double scalar(double temp, Vector v1, Vector v2) {
-        double number = 0;
-        for (int i = 0; i < temp; i++) {
-            number += v1.array[i] * v2.array[i];
-        }
-        return number;
+        Vector v3 = new Vector(v1);
+        return v3.sub(v2);
     }
 
     public static double scalarMultiplication(Vector v1, Vector v2) {
-        double v3;
-        double temp = v1.array.length;
-        double temp1 = v2.array.length;
+        double v3 = 0;
+        double temp;
         if (v1.array.length >= v2.array.length) {
-            v3 = scalar(temp1, v1, v2);
+            temp = v2.array.length;
         } else {
-            v3 = scalar(temp, v1, v2);
+            temp = v1.array.length;
+        }
+        for (int i = 0; i < temp; i++) {
+            v3 += v1.array[i] * v2.array[i];
         }
         return v3;
     }
