@@ -1,4 +1,4 @@
-package ru.academits.malykh.vector;
+package ru.academits.malykh.matrix;
 
 import java.util.Arrays;
 
