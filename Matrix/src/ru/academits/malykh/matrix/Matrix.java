@@ -22,9 +22,9 @@ public class Matrix {
         this.matrix = Arrays.copyOf(matrix, matrix.length);
     }
 
-    /*public Matrix(Vector[] vectors) {
-        this.matrix =
-    } */
+    public Matrix(Vector[] vectors) {
+       
+    }
 
     public double[] getSize() {
         int rows = this.matrix.length;
@@ -76,6 +76,8 @@ public class Matrix {
         }
         return this;
     }
+
+    //public double determinant()
 
     public static Matrix addition(Matrix m1, Matrix m2) {
         Matrix m3 = new Matrix(m1);

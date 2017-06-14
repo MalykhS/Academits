@@ -100,13 +100,13 @@ public class Vector {
 
     public static double scalarMultiplication(Vector v1, Vector v2) {
         double v3 = 0;
-        double temp;
+        double currentLength;
         if (v1.array.length >= v2.array.length) {
-            temp = v2.array.length;
+            currentLength = v2.array.length;
         } else {
-            temp = v1.array.length;
+            currentLength = v1.array.length;
         }
-        for (int i = 0; i < temp; i++) {
+        for (int i = 0; i < currentLength; i++) {
             v3 += v1.array[i] * v2.array[i];
         }
         return v3;

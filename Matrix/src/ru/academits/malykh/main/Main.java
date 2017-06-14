@@ -9,6 +9,6 @@ public class Main {
     public static void main(String[] args) {
         Vector[] vectors = {new Vector(1,2,3), new Vector(2,3,4), new Vector(3,4,5)};
         Matrix m = new Matrix(6, 8);
-        System.out.println(Arrays.toString(m.getSize()));
+        System.out.println(Arrays.deepToString(m.transpose()));
     }
 }
