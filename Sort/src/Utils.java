@@ -1,14 +1,14 @@
 public class Utils {
-    public static void getException(String[] args) {
+   /* public static void getException(String[] args) {
         if (args[0].isEmpty()) {
             throw new ArrayIndexOutOfBoundsException("You must enter file name");
         } else if (args[1].isEmpty()) {
             throw new ArrayIndexOutOfBoundsException("You must enter sorting mode");
         }
-    }
+    } */
 
 
-    public static int[] getAscendingSort(int[] array) {
+    static int[] getAscendingSort(int[] array) {
         for (int i = 1; i < array.length; i++) {
             int temp = array[i];
             int j = i - 1;
@@ -22,7 +22,7 @@ public class Utils {
         return array;
     }
 
-    public static int[] getDescendingSort(int[] array) {
+    static int[] getDescendingSort(int[] array) {
         for (int i = 1; i < array.length; i++) {
             int temp = array[i];
             int j = i - 1;
@@ -36,7 +36,7 @@ public class Utils {
         return array;
     }
 
-    public static void getAscendingSort(Comparable<String>[] c) {
+    static void getAscendingSort(Comparable<String>[] c) {
         Comparable<String> stringComparable;
         int j;
         for (int i = 0; i < c.length; i++) {

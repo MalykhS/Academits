@@ -6,14 +6,10 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 public class Sort {
-    public static void main(String[] args) throws ArrayIndexOutOfBoundsException, IOException {
+    public static void main(String[] args) throws IOException {
         try (Scanner scanner = new Scanner(new FileInputStream(args[0]));
              PrintWriter writer = new PrintWriter(args[1])) {
-
-            if (args[2].isEmpty()) {
-                throw new ArrayIndexOutOfBoundsException("You must enter key");
-            }
-
+            
             if (args[0].equals("1.txt") && args[2].equals("-i-a")) {
                 ArrayList<Integer> list = new ArrayList<>();
                 while (scanner.hasNextInt()) {
