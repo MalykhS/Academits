@@ -6,38 +6,54 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 public class Sort {
-    private static int[] getAscendingSort(int[] array) {
+    public static void main(String[] args) throws ArrayIndexOutOfBoundsException, IOException {
+        try (Scanner scanner = new Scanner(new FileInputStream(args[0]));
+             PrintWriter writer = new PrintWriter(args[1])) {
 
-        for (int i = 0; i < array.length; i++) {
-            int temp = array[i];
-            int j = i - 1;
-
-            while (j >= 0 && array[j] > temp) {
-                array[j + 1] = array[j];
-                j--;
+            if (args[2].isEmpty()) {
+                throw new ArrayIndexOutOfBoundsException("You must enter key");
             }
-            array[j + 1] = temp;
-        }
-        return array;
-    }
 
-    public static void main(String[] args) throws IOException {
-        try (PrintWriter printWriter = new PrintWriter(args[1]);
-        Scanner scanner = new Scanner(new FileInputStream(args[0]))) {
-            if (args[0].equals("1.txt")) {
+            if (args[0].equals("1.txt") && args[2].equals("-i-a")) {
                 ArrayList<Integer> list = new ArrayList<>();
                 while (scanner.hasNextInt()) {
                     list.add(scanner.nextInt());
                 }
 
                 int[] array = new int[list.size()];
-                for (int i = 0; i < array.length; i++) {
+                for (int i = 0; i != list.size(); i++) {
                     array[i] = list.get(i);
                 }
-                getAscendingSort(array);
+
+                writer.println(Arrays.toString(Utils.getAscendingSort(array)));
+
+            } else if (args[0].equals("1.txt") && args[2].equals("-i-d")) {
+                ArrayList<Integer> list = new ArrayList<>();
+                while (scanner.hasNextInt()) {
+                    list.add(scanner.nextInt());
+                }
+
+                int[] array = new int[list.size()];
+                for (int i = 0; i != list.size(); i++) {
+                    array[i] = list.get(i);
+                }
+
+                writer.println(Arrays.toString(Utils.getDescendingSort(array)));
+
+            } else if (args[0].equals("1.txt") && args[2].equals("-s-a")) {
+                ArrayList<String> list = new ArrayList<>();
+                while (scanner.hasNextLine()) {
+                    list.add(scanner.nextLine());
+                }
+
+                String[] array1 = new String[list.size()];
+                for (int i = 0; i != list.size(); i++) {
+                    array1[i] = String.valueOf(list.get(i));
+                }
+
+                Utils.getAscendingSort(array1);
+                writer.println(Arrays.toString(array1));
             }
         }
-
     }
-
 }
