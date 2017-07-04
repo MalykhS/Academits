@@ -13,6 +13,7 @@ public class Sort {
         if (args.length != 4) {
             Utils.arrayIndexOutOfBoundsException(args);
         } else {
+            Utils.fileReadException(args[0]);
             try (Scanner scanner = new Scanner(new FileInputStream(args[0]));
                  PrintWriter writer = new PrintWriter(args[1])) {
 
@@ -29,7 +30,7 @@ public class Sort {
                                 for (int i = 0; i != list.size(); i++) {
                                     array[i] = list.get(i);
                                 }
-
+                                Utils.fileWriteException(args[1]);
                                 writer.println(Arrays.toString(Utils.getAscendingSort(array)));
                                 break;
                             }
@@ -44,6 +45,7 @@ public class Sort {
                                     array[i] = list.get(i);
                                 }
 
+                                Utils.fileWriteException(args[1]);
                                 writer.println(Arrays.toString(Utils.getDescendingSort(array)));
                                 break;
                             }
@@ -66,6 +68,7 @@ public class Sort {
                             }
 
                             Utils.ascendingSort(array1);
+                            Utils.fileWriteException(args[1]);
                             writer.println(Arrays.toString(array1));
                         } else {
                             Utils.illegalFlagException(args);

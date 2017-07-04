@@ -4,6 +4,24 @@ import java.io.*;
 import java.util.IllegalFormatFlagsException;
 
 class Utils {
+    static void fileReadException(String fileName) {
+        try {
+            FileInputStream str = new FileInputStream(fileName);
+            str.read();
+        } catch (IOException e) {
+            System.out.println("File is not read!");
+        }
+    }
+
+    static void fileWriteException(String fileName) {
+        byte[] bytesToWrite = new byte[fileName.length()];
+        try {
+            FileOutputStream str = new FileOutputStream(fileName);
+            str.write(bytesToWrite);
+        } catch (IOException e) {
+            System.out.println("File is not write!");
+        }
+    }
 
     static void arrayIndexOutOfBoundsException(String[] args) {
         try {
