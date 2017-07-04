@@ -1,12 +1,33 @@
-public class Utils {
-   /* public static void getException(String[] args) {
-        if (args[0].isEmpty()) {
-            throw new ArrayIndexOutOfBoundsException("You must enter file name");
-        } else if (args[1].isEmpty()) {
-            throw new ArrayIndexOutOfBoundsException("You must enter sorting mode");
-        }
-    } */
+package ru.academits.malykh.sort;
 
+import java.io.*;
+import java.util.IllegalFormatFlagsException;
+
+class Utils {
+
+    static void arrayIndexOutOfBoundsException(String[] args) {
+        try {
+            throw new ArrayIndexOutOfBoundsException("");
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("You must enter 4 arguments!");
+        }
+    }
+
+    static void illegalFlagException(String[] args) {
+        try {
+            throw new IllegalFormatFlagsException("It is not right flag");
+        } catch (IllegalFormatFlagsException e) {
+            System.out.println("This flag can't be here use!");
+        }
+    }
+
+    static void a(String[] args) {
+        try {
+            new PrintWriter(args[1]).write(1);
+        } catch (IOException e) {
+            System.out.println("This file can't be write!");
+        }
+    }
 
     static int[] getAscendingSort(int[] array) {
         for (int i = 1; i < array.length; i++) {
@@ -36,7 +57,7 @@ public class Utils {
         return array;
     }
 
-    static void getAscendingSort(Comparable<String>[] c) {
+    static void ascendingSort(Comparable<String>[] c) {
         Comparable<String> stringComparable;
         int j;
         for (int i = 0; i < c.length; i++) {

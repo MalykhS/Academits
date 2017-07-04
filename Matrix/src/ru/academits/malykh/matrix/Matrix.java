@@ -48,7 +48,7 @@ public class Matrix {
     }
 
     public int getNumberColumns() {
-        return rows[getNumberRows() - 1].getSize();
+        return rows[0].getSize();
     }
 
     public void setRow(int index, Vector v1) {
@@ -71,8 +71,8 @@ public class Matrix {
     }
 
     public void transpose() {
-        for (int i = 0; i < this.getNumberColumns(); i++) {
-            rows[i] = this.getColumn(i);
+        for (int i = 0; i < getNumberColumns(); i++) {
+            rows[i] = getColumn(0);
         }
     }
 
@@ -83,14 +83,14 @@ public class Matrix {
         return this;
     }
 
-    public Vector vectorMultiplication(Vector v1) {
+    /*public Vector vectorMultiplication(Vector v1) {
         Vector v2 = new Vector();
         for (int i = 0; i < rows.length; i++) {
             v2 = v1.;
             System.out.println(getColumn(i));
         }
         return v2;
-    }
+    } */
 
 
         /*double res = 0;
