@@ -6,7 +6,6 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 class Utils {
-
     static void illegalFlagException(String[] args) {
         System.out.println("This flag can't be here use!");
     }
