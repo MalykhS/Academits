@@ -1,5 +1,5 @@
-3
--45
-1
-67
-0
+first
+a
+book
+door
+circle
