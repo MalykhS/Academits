@@ -1,8 +1,6 @@
 package ru.academits.malykh.sort.main;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.Scanner;
 
 public class Sort {
@@ -10,7 +8,7 @@ public class Sort {
         System.out.println("This flag can't be here use!");
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         if (args.length != 4) {
             System.out.println("You must enter 4 arguments!");
             return;
@@ -52,7 +50,7 @@ public class Sort {
                     getIllegalFlag();
                     break;
             }
-        } catch (FileNotFoundException ex) {
+        } catch (FileNotFoundException e) {
             System.out.println("File is not found!");
         }
     }
