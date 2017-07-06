@@ -1,4 +1,1 @@
-first
-book
-about
-my
+[yandex, circle, book, a]

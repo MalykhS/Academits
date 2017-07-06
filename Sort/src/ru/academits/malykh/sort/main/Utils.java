@@ -2,63 +2,56 @@ package ru.academits.malykh.sort.main;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Scanner;
 
 class Utils {
-    static void illegalFlagException(String[] args) {
-        System.out.println("This flag can't be here use!");
-    }
-
-    private static int[] getAscendingSort(int[] array) {
-        for (int i = 1; i < array.length; i++) {
-            int temp = array[i];
+    private static void getAscendingSort(ArrayList<Integer> list) {
+        for (int i = 1; i < list.size(); i++) {
+            int temp = list.get(i);
             int j = i - 1;
 
-            while (j >= 0 && array[j] > temp) {
-                array[j + 1] = array[j];
+            while (j >= 0 && list.get(j) > temp) {
+                list.set((j + 1), list.get(j));
                 j--;
             }
-            array[j + 1] = temp;
+            list.set((j + 1), temp);
         }
-        return array;
     }
 
-    private static int[] getDescendingSort(int[] array) {
-        for (int i = 1; i < array.length; i++) {
-            int temp = array[i];
+    private static void getDescendingSort(ArrayList<Integer> list) {
+        for (int i = 1; i < list.size(); i++) {
+            int temp = list.get(i);
             int j = i - 1;
 
-            while (j >= 0 && array[j] < temp) {
-                array[j + 1] = array[j];
+            while (j >= 0 && list.get(j) < temp) {
+                list.set((j + 1), list.get(j));
                 j--;
             }
-            array[j + 1] = temp;
-        }
-        return array;
-    }
-
-    private static void ascendingSort(Comparable<String>[] c) {
-        Comparable<String> stringComparable;
-        int j;
-        for (int i = 0; i < c.length; i++) {
-            stringComparable = c[i];
-            for (j = i - 1; j >= 0 && c[j].compareTo((String) stringComparable) > 0; j--) {
-                c[j + 1] = c[j];
-            }
-            c[j + 1] = stringComparable;
+            list.set((j + 1), temp);
         }
     }
 
-    private static void descendingSort(Comparable<String>[] c) {
-        Comparable<String> stringComparable;
+    private static void ascendingSort(ArrayList<String> list) {
+        String str;
         int j;
-        for (int i = 0; i < c.length; i++) {
-            stringComparable = c[i];
-            for (j = i - 1; j >= 0 && c[j].compareTo((String) stringComparable) < 0; j--) {
-                c[j + 1] = c[j];
+        for (int i = 0; i < list.size(); i++) {
+            str = list.get(i);
+            for (j = i - 1; j >= 0 && list.get(j).compareTo(str) > 0; j--) {
+                list.set((j + 1), list.get(j));
             }
-            c[j + 1] = stringComparable;
+            list.set((j + 1), str);
+        }
+    }
+
+    private static void descendingSort(ArrayList<String> list) {
+        String str;
+        int j;
+        for (int i = 0; i < list.size(); i++) {
+            str = list.get(i);
+            for (j = i - 1; j >= 0 && list.get(j).compareTo(str) < 0; j--) {
+                list.set((j + 1), list.get(j));
+            }
+            list.set((j + 1), str);
         }
     }
 
@@ -68,12 +61,8 @@ class Utils {
             list.add(scanner.nextInt());
         }
 
-        int[] array = new int[list.size()];
-        for (int i = 0; i != list.size(); i++) {
-            array[i] = list.get(i);
-        }
-
-        writer.println(Arrays.toString(Utils.getAscendingSort(array)));
+        Utils.getAscendingSort(list);
+        writer.println(list);
     }
 
     static void writeDescendingSortNumbersFile(Scanner scanner, PrintWriter writer) {
@@ -82,12 +71,8 @@ class Utils {
             list.add(scanner.nextInt());
         }
 
-        int[] array = new int[list.size()];
-        for (int i = 0; i != list.size(); i++) {
-            array[i] = list.get(i);
-        }
-
-        writer.println(Arrays.toString(Utils.getDescendingSort(array)));
+        Utils.getDescendingSort(list);
+        writer.println(list);
     }
 
     static void writeAscendingSortStringsFile(Scanner scanner, PrintWriter writer) {
@@ -96,13 +81,8 @@ class Utils {
             list.add(scanner.nextLine());
         }
 
-        String[] array1 = new String[list.size()];
-        for (int i = 0; i != list.size(); i++) {
-            array1[i] = String.valueOf(list.get(i));
-        }
-
-        Utils.ascendingSort(array1);
-        writer.println(Arrays.toString(array1));
+        Utils.ascendingSort(list);
+        writer.println(list);
     }
 
     static void writeDescendingSortStringsFile(Scanner scanner, PrintWriter writer) {
@@ -111,13 +91,7 @@ class Utils {
             list.add(scanner.nextLine());
         }
 
-        String[] array1 = new String[list.size()];
-        for (int i = 0; i != list.size(); i++) {
-            array1[i] = String.valueOf(list.get(i));
-        }
-
-        Utils.descendingSort(array1);
-        writer.println(Arrays.toString(array1));
+        Utils.descendingSort(list);
+        writer.println(list);
     }
-
 }

@@ -6,6 +6,10 @@ import java.io.PrintWriter;
 import java.util.Scanner;
 
 public class Sort {
+    private static void getIllegalFlag() {
+        System.out.println("This flag can't be here use!");
+    }
+
     public static void main(String[] args) {
         if (args.length != 4) {
             System.out.println("You must enter 4 arguments!");
@@ -26,7 +30,7 @@ public class Sort {
                             break;
                         }
                         default:
-                            Utils.illegalFlagException(args);
+                            getIllegalFlag();
                             break;
                     }
 
@@ -40,17 +44,16 @@ public class Sort {
                             Utils.writeDescendingSortStringsFile(scanner, writer);
                             break;
                         default:
-                            Utils.illegalFlagException(args);
+                            getIllegalFlag();
                             break;
                     }
                     break;
                 default:
-                    Utils.illegalFlagException(args);
+                    getIllegalFlag();
                     break;
             }
         } catch (FileNotFoundException ex) {
             System.out.println("File is not found!");
         }
-
     }
 }
