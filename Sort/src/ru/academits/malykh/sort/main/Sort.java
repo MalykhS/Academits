@@ -1,11 +1,14 @@
 package ru.academits.malykh.sort.main;
 
 import java.io.*;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Sort {
-    private static void getIllegalFlag() {
-        System.out.println("This flag can't be here use!");
+    private static void illegalFlag() {
+        System.out.println("You entered an invalid flag! You must enter: \n -i -a for ascending numbers sort;\n " +
+                "-i -d for descending numbers sort;\n -s -a for ascending strings sort; \n -s -d for descending " +
+                "strings sort;");
     }
 
     public static void main(String[] args) {
@@ -19,16 +22,14 @@ public class Sort {
             switch (args[2]) {
                 case "-i":
                     switch (args[3]) {
-                        case "-a": {
+                        case "-a":
                             Utils.writeAscendingSortNumbersFile(scanner, writer);
                             break;
-                        }
-                        case "-d": {
+                        case "-d":
                             Utils.writeDescendingSortNumbersFile(scanner, writer);
                             break;
-                        }
                         default:
-                            getIllegalFlag();
+                            illegalFlag();
                             break;
                     }
 
@@ -42,16 +43,18 @@ public class Sort {
                             Utils.writeDescendingSortStringsFile(scanner, writer);
                             break;
                         default:
-                            getIllegalFlag();
+                            illegalFlag();
                             break;
                     }
                     break;
                 default:
-                    getIllegalFlag();
+                    illegalFlag();
                     break;
             }
-        } catch (FileNotFoundException e) {
+        } catch (FileNotFoundException ex) {
             System.out.println("File is not found!");
+        } catch (InputMismatchException e) {
+            System.out.println("Unsuitable data type!");
         }
     }
 }

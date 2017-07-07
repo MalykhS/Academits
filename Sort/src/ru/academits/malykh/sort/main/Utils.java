@@ -62,7 +62,9 @@ class Utils {
         }
 
         Utils.getAscendingSort(list);
-        writer.println(list);
+        for (int e : list) {
+            writer.println(e);
+        }
     }
 
     static void writeDescendingSortNumbersFile(Scanner scanner, PrintWriter writer) {
@@ -72,7 +74,9 @@ class Utils {
         }
 
         Utils.getDescendingSort(list);
-        writer.println(list);
+        for (int e : list) {
+            writer.println(e);
+        }
     }
 
     static void writeAscendingSortStringsFile(Scanner scanner, PrintWriter writer) {
@@ -82,7 +86,9 @@ class Utils {
         }
 
         Utils.ascendingSort(list);
-        writer.println(list);
+        for (String e : list) {
+            writer.println(e);
+        }
     }
 
     static void writeDescendingSortStringsFile(Scanner scanner, PrintWriter writer) {
@@ -92,6 +98,8 @@ class Utils {
         }
 
         Utils.descendingSort(list);
-        writer.println(list);
+        for (String e : list) {
+            writer.println(e);
+        }
     }
 }
