@@ -1,14 +1,16 @@
 package ru.academits.malykh.sort.main;
 
 import java.io.*;
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Sort {
-    private static void illegalFlag() {
-        System.out.println("You entered an invalid flag! You must enter: \n -i -a for ascending numbers sort;\n " +
-                "-i -d for descending numbers sort;\n -s -a for ascending strings sort; \n -s -d for descending " +
-                "strings sort;");
+    private static void printIllegalFlag(String[] args) {
+        if (!args[2].equals("-i") && (!args[2].equals("-s"))) {
+            System.out.println("Not correct first argument! You must enter -i or -s");
+        }
+        if (!args[3].equals("-a") && (!args[3].equals("-d"))) {
+            System.out.println("Not correct second argument! You must enter -a or -d!");
+        }
     }
 
     public static void main(String[] args) {
@@ -29,7 +31,7 @@ public class Sort {
                             Utils.writeDescendingSortNumbersFile(scanner, writer);
                             break;
                         default:
-                            illegalFlag();
+                            printIllegalFlag(args);
                             break;
                     }
 
@@ -43,18 +45,16 @@ public class Sort {
                             Utils.writeDescendingSortStringsFile(scanner, writer);
                             break;
                         default:
-                            illegalFlag();
+                            printIllegalFlag(args);
                             break;
                     }
                     break;
                 default:
-                    illegalFlag();
+                    printIllegalFlag(args);
                     break;
             }
         } catch (FileNotFoundException ex) {
             System.out.println("File is not found!");
-        } catch (InputMismatchException e) {
-            System.out.println("Unsuitable data type!");
         }
     }
 }

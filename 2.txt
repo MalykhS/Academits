@@ -1,1 +1,4 @@
-[yandex, circle, book, a]
+1
+2
+4
+6
