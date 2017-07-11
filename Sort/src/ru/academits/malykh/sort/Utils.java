@@ -1,4 +1,4 @@
-package ru.academits.malykh.sort.main;
+package ru.academits.malykh.sort;
 
 import java.io.*;
 import java.util.ArrayList;
