@@ -1,90 +1,59 @@
 package ru.academits.malykh.sort;
 
 import java.io.*;
-import java.util.IllegalFormatFlagsException;
+import java.util.ArrayList;
+import java.util.Scanner;
 
 class Utils {
-    static void fileReadException(String fileName) {
-        try {
-            FileInputStream str = new FileInputStream(fileName);
-            str.read();
-        } catch (IOException e) {
-            System.out.println("File is not read!");
+
+    private static void readNumbersFile(Scanner scanner, ArrayList<Integer> list) {
+        while (scanner.hasNext()) {
+            list.add(scanner.nextInt());
         }
     }
 
-    static void fileWriteException(String fileName) {
-        byte[] bytesToWrite = new byte[fileName.length()];
-        try {
-            FileOutputStream str = new FileOutputStream(fileName);
-            str.write(bytesToWrite);
-        } catch (IOException e) {
-            System.out.println("File is not write!");
+    private static void readStringsFile(Scanner scanner, ArrayList<String> list) {
+        while (scanner.hasNext()) {
+            list.add(scanner.nextLine());
         }
     }
 
-    static void arrayIndexOutOfBoundsException(String[] args) {
-        try {
-            throw new ArrayIndexOutOfBoundsException("");
-        } catch (ArrayIndexOutOfBoundsException e) {
-            System.out.println("You must enter 4 arguments!");
+    private static <T> void writeFile(PrintWriter writer, ArrayList<T> list) {
+        for (T e : list) {
+            writer.println(e);
         }
     }
 
-    static void illegalFlagException(String[] args) {
-        try {
-            throw new IllegalFormatFlagsException("It is not right flag");
-        } catch (IllegalFormatFlagsException e) {
-            System.out.println("This flag can't be here use!");
-        }
+    static void writeAscendingSortNumbersFile(Scanner scanner, PrintWriter writer) {
+
+        ArrayList<Integer> list = new ArrayList<>();
+        Utils.readNumbersFile(scanner, list);
+
+        Sort.getSort(list, new SortNumbersComparator());
+        Utils.writeFile(writer, list);
     }
 
-    static void a(String[] args) {
-        try {
-            new PrintWriter(args[1]).write(1);
-        } catch (IOException e) {
-            System.out.println("This file can't be write!");
-        }
+    static void writeDescendingSortNumbersFile(Scanner scanner, PrintWriter writer) {
+        ArrayList<Integer> list = new ArrayList<>();
+        Utils.readNumbersFile(scanner, list);
+
+        Sort.getSort(list, new SortNumbersComparator().reversed());
+        Utils.writeFile(writer, list);
     }
 
-    static int[] getAscendingSort(int[] array) {
-        for (int i = 1; i < array.length; i++) {
-            int temp = array[i];
-            int j = i - 1;
+    static void writeAscendingSortStringsFile(Scanner scanner, PrintWriter writer) {
+        ArrayList<String> list = new ArrayList<>();
+        Utils.readStringsFile(scanner, list);
 
-            while (j >= 0 && array[j] > temp) {
-                array[j + 1] = array[j];
-                j--;
-            }
-            array[j + 1] = temp;
-        }
-        return array;
+        Sort.getSort(list, new SortStringsComparator());
+        Utils.writeFile(writer, list);
     }
 
-    static int[] getDescendingSort(int[] array) {
-        for (int i = 1; i < array.length; i++) {
-            int temp = array[i];
-            int j = i - 1;
+    static void writeDescendingSortStringsFile(Scanner scanner, PrintWriter writer) {
+        ArrayList<String> list = new ArrayList<>();
+        Utils.readStringsFile(scanner, list);
 
-            while (j >= 0 && array[j] < temp) {
-                array[j + 1] = array[j];
-                j--;
-            }
-            array[j + 1] = temp;
-        }
-        return array;
-    }
-
-    static void ascendingSort(Comparable<String>[] c) {
-        Comparable<String> stringComparable;
-        int j;
-        for (int i = 0; i < c.length; i++) {
-            stringComparable = c[i];
-            for (j = i - 1; j >= 0 && c[j].compareTo((String) stringComparable) > 0; j--) {
-                c[j + 1] = c[j];
-            }
-            c[j + 1] = stringComparable;
-        }
+        Sort.getSort(list, new SortStringsComparator().reversed());
+        Utils.writeFile(writer, list);
     }
 }
-
