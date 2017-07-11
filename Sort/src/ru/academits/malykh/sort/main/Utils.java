@@ -29,7 +29,7 @@ class Utils {
         ArrayList<Integer> list = new ArrayList<>();
         Utils.readNumbersFile(scanner, list);
 
-        Sort.getAscendingSort(list);
+        Sort.sort(list, new SortNumbersComparator());
         Utils.writeFile(writer, list);
     }
 
@@ -37,7 +37,7 @@ class Utils {
         ArrayList<Integer> list = new ArrayList<>();
         Utils.readNumbersFile(scanner, list);
 
-        Sort.getDescendingSort(list);
+        Sort.sort(list, new SortNumbersComparator().reversed());
         Utils.writeFile(writer, list);
     }
 
@@ -45,17 +45,15 @@ class Utils {
         ArrayList<String> list = new ArrayList<>();
         Utils.readStringsFile(scanner, list);
 
-        Sort.ascendingSort(list);
-        for (String e : list) {
-            writer.println(e);
-        }
+        Sort.sort(list, new SortStringsComparator());
+        Utils.writeFile(writer, list);
     }
 
     static void writeDescendingSortStringsFile(Scanner scanner, PrintWriter writer) {
         ArrayList<String> list = new ArrayList<>();
         Utils.readStringsFile(scanner, list);
 
-        Sort.descendingSort(list);
+        Sort.sort(list, new SortStringsComparator().reversed());
         Utils.writeFile(writer, list);
     }
 }
