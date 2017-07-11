@@ -36,19 +36,21 @@ public class Matrix {
     }
 
     /*public int[] getSize() {
-        int res = 0;
-        for (Vector vector : rows) {
-            res = vector.getSize();
-        }
-        return new int[]{rows.length, res};
+    int res = 0;
+    for (Vector vector : rows) {
+    res = vector.getSize();
+    }
+    return new int[]{rows.length, res};
     } */
 
-    public int getNumberRows() {
+    public int getRow() {
+        this.rows = Arrays.copyOf(rows, rows.length);
         return this.rows.length;
     }
 
     public int getNumberColumns() {
-        return rows[0].getSize();
+        this.rows = Arrays.copyOf(rows, rows.length);
+        return this.rows[getRow() - 1].getSize();
     }
 
     public void setRow(int index, Vector v1) {
@@ -60,21 +62,27 @@ public class Matrix {
     }
 
     public Vector getColumn(int index) {
-        if (index >= rows[0].getSize()) {
-            throw new ArrayIndexOutOfBoundsException("Index more than array length");
-        }
         double[] array = new double[rows.length];
         for (int i = 0; i < rows.length; i++) {
-            array[i] = rows[i].getElement(index);
+            rows[i] = g
         }
-        return new Vector(array);
+        return new Vector(rows)
     }
 
-    public void transpose() {
-        for (int i = 0; i < getNumberColumns(); i++) {
-            rows[i] = getColumn(0);
+    public Matrix transpose() { //{1,2,3}, {4,5,6}, {7,8,9}
+        for (int i = 0; i < rows.length; i++) {
+
         }
+        return this;
     }
+
+    /*double[][] temp = new double[array.length][array[0].length];
+    for (int i = 0; i < array.length; i++) {
+    for (int j = 0; j < array[0].length; j++) {
+    temp[i][j] = array[j][i];
+    }
+    }
+    return new Matrix(temp); */
 
     public Matrix scalarMultiplication(int number) {
         for (int i = 0; i < this.rows.length; i++) {
@@ -84,22 +92,17 @@ public class Matrix {
     }
 
     /*public Vector vectorMultiplication(Vector v1) {
-        Vector v2 = new Vector();
-        for (int i = 0; i < rows.length; i++) {
-            v2 = v1.;
-            System.out.println(getColumn(i));
-        }
-        return v2;
-    } */
-
-
-        /*double res = 0;
-        for (Vector vector : rows) {
-            res += Vector.scalarMultiplication(vector, v1);
-        }
-        return res;
-        return
+    Vector v2 = new Vector(v1);
+    for (int i = 0; i < rows.length; i++) {
+    v2 = rows[i].getElement(i) * v1.getElement(i);
     }
+    /*double res = 0;
+    for (Vector vector : rows) {
+    res += Vector.scalarMultiplication(vector, v1);
+    }
+    return res;
+    return
+    } */
 
     public Matrix add(Matrix m1) {
         getIllegalDimensions(m1);
