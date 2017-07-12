@@ -3,7 +3,7 @@ package ru.academits.malykh.sort;
 import java.util.*;
 
 class Sort {
-    static <T> void getSort(List<T> list, Comparator<T> c) {
+    static <T> void sort(ArrayList<T> list, Comparator<T> c) {
         for (int i = 1; i < list.size(); i++) {
             T temp = list.get(i);
             int j = i - 1;

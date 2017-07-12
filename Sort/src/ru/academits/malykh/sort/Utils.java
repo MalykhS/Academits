@@ -2,20 +2,25 @@ package ru.academits.malykh.sort;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Scanner;
 
 class Utils {
 
-    private static void readNumbersFile(Scanner scanner, ArrayList<Integer> list) {
+    private static ArrayList<Integer> readNumbersFile(Scanner scanner) {
+        ArrayList<Integer> list = new ArrayList<>();
         while (scanner.hasNext()) {
             list.add(scanner.nextInt());
         }
+        return list;
     }
 
-    private static void readStringsFile(Scanner scanner, ArrayList<String> list) {
+    private static ArrayList<String> readStringsFile(Scanner scanner) {
+        ArrayList<String> list = new ArrayList<>();
         while (scanner.hasNext()) {
             list.add(scanner.nextLine());
         }
+        return list;
     }
 
     private static <T> void writeFile(PrintWriter writer, ArrayList<T> list) {
@@ -24,36 +29,15 @@ class Utils {
         }
     }
 
-    static void writeAscendingSortNumbersFile(Scanner scanner, PrintWriter writer) {
-
-        ArrayList<Integer> list = new ArrayList<>();
-        Utils.readNumbersFile(scanner, list);
-
-        Sort.getSort(list, new SortNumbersComparator());
+    static void writeSortNumbersFile(Scanner scanner, PrintWriter writer, Comparator<Integer> comparator) {
+        ArrayList<Integer> list = Utils.readNumbersFile(scanner);
+        Sort.sort(list, comparator);
         Utils.writeFile(writer, list);
     }
 
-    static void writeDescendingSortNumbersFile(Scanner scanner, PrintWriter writer) {
-        ArrayList<Integer> list = new ArrayList<>();
-        Utils.readNumbersFile(scanner, list);
-
-        Sort.getSort(list, new SortNumbersComparator().reversed());
-        Utils.writeFile(writer, list);
-    }
-
-    static void writeAscendingSortStringsFile(Scanner scanner, PrintWriter writer) {
-        ArrayList<String> list = new ArrayList<>();
-        Utils.readStringsFile(scanner, list);
-
-        Sort.getSort(list, new SortStringsComparator());
-        Utils.writeFile(writer, list);
-    }
-
-    static void writeDescendingSortStringsFile(Scanner scanner, PrintWriter writer) {
-        ArrayList<String> list = new ArrayList<>();
-        Utils.readStringsFile(scanner, list);
-
-        Sort.getSort(list, new SortStringsComparator().reversed());
+    static void writeSortStringsFile(Scanner scanner, PrintWriter writer, Comparator<String> comparator) {
+        ArrayList<String> list = Utils.readStringsFile(scanner);
+        Sort.sort(list, comparator);
         Utils.writeFile(writer, list);
     }
 }
