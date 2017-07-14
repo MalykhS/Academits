@@ -28,12 +28,54 @@ public class SinglyLinkedList {
         return head;
     }
 
-    public ListElement getListElement(int index) {
+    public int getListElement(int index) { //получить значение по указанному индексу
         if (head == null) {
             throw new NullPointerException("List is empty!");
         }
 
-        int count = 0;
+        int count = -1;
+        for (ListElement p = head; p != null; p = p.next) {
+            count++;
+            if (count == index) {
+                return p.data;
+            }
+        }
+
+        if (index > count || index <= 0) {
+            throw new ArrayIndexOutOfBoundsException("There is no such index in the list!");
+        }
+        return 0;
+    }
+
+    public int setValue(int element, int index) { //изменить значение по указанному индексу
+        if (head == null) {
+            throw new NullPointerException("List is empty!");
+        }
+        int count = -1;
+
+        for (ListElement p = head; p != null; p = p.next) {
+            count++;
+
+            if (count == index) {
+                ListElement p1 = new ListElement();
+                p1.data = p.data;
+                p.data = element;
+                return p1.data;
+            }
+        }
+
+        if (index > count || index <= 0) {
+            throw new ArrayIndexOutOfBoundsException("There is no such index in the list!");
+        }
+        return 0;
+    }
+
+    public ListElement getNode(int index) {//получение узла по индексу
+        if (head == null) {
+            throw new NullPointerException("List is empty!");
+        }
+
+        int count = -1;
         ListElement p;
         for (p = head; p != null; p = p.next) {
             count++;
@@ -41,60 +83,105 @@ public class SinglyLinkedList {
                 return p;
             }
         }
-        return p;
+
+        if (index > count || index <= 0) {
+            throw new ArrayIndexOutOfBoundsException("There is no such index in the list!");
+        }
+        return null;
     }
 
-    public void getValue(int index) {
+    public int getDeletedElement(int index) { //удаление элемента по индексу
         if (head == null) {
             throw new NullPointerException("List is empty!");
         }
-    }
 
-    public void setValue(int element, int index) {
-        if (head == null) {
-            throw new NullPointerException("List is empty!");
-        }
-
-        if (head.data == index) {
-            head.data = element;
-            return;
-        }
-
-        /*if (tail.data == index) {
-            tail.data = element;
-            return;
-        } */
-
-        ListElement listElement = head;
-        while (listElement != null) {
-            if (listElement.data == index) {
-                listElement.data = element;
-                return;
+        int count = -1;
+        for (ListElement p = head, prev = null; p != null; prev = p, p = p.next) {
+            count++;
+            if (count == index) {
+                if (index == 0) {
+                    ListElement p1 = head;
+                    getDeletedFirstElement();
+                    return p1.getData();
+                } else {
+                    assert prev != null;
+                    prev.next = prev.next.next;
+                    return p.data;
+                }
             }
-            listElement = listElement.next;
         }
+
+        if (index > count || index < 0) {
+            throw new ArrayIndexOutOfBoundsException("There is no such index in the list!");
+        }
+        return 0;
     }
 
     public void addFirst(int element) {
         head = new ListElement(element, head);
     }
 
-    /*public void addLast(int element) {
-        ListElement listElement = new ListElement(element, tail);
-        listElement.data = element;
-        tail = listElement.next;
-        tail = listElement;
-    } */
+    public void addLast(int element) {
 
-    public int removeFirstElement() {
-        ListElement p = head;
-        head = head.getNext();
-        return p.getData();
     }
 
+    public void addElement(int element, int index) {
+        int count = -1;
+        for (ListElement p = head, prev = null; p != null; prev = p, p = p.next) {
+            count++;
+            if (index == 0) {
+                addFirst(element);
+                return;
+            }
+            if (count == index) {
+                assert prev != null;
+                prev.next = new ListElement(element, p);
+            }
+        }
 
-    //head = head.getNext();
+        if (index > count || index < 0) {
+            throw new ArrayIndexOutOfBoundsException("There is no such index in the list!");
+        }
+    }
 
+    public void removeNode(int value) { //удаление узла по значению ??????
+        if (head == null) {
+            throw new NullPointerException("List is empty!");
+        }
 
-    //return p.getData();
+        for (ListElement p = head, prev = null; p != null; prev = p, p = p.next) {
+            if (p.data == value) {
+                assert prev != null;
+                prev.next = prev.next.next;
+            }
+        }
+    }
+
+    public void removeNode1(ListElement p1) { // не работает
+        for (ListElement p = head, prev = null; p != null; prev = p, p = p.next) {
+            if (p.next.data == p1.next.data) {
+                System.out.println(p.getData());
+            }
+        }
+    }
+
+    private void getDeletedFirstElement() {
+        if (head == null) {
+            throw new NullPointerException("List is empty!");
+        }
+
+        head = head.getNext();
+    }
+
+    public void invertList() {
+        ListElement p = head;
+        ListElement prev = null;
+        while (p != null) {
+            ListElement temp = p.next;
+            p.next = prev;
+            prev = p;
+            head = p;
+            p = temp;
+        }
+    }
 }

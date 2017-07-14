@@ -1,5 +1,6 @@
 package ru.academits.malykh.main;
 
+import ru.academits.malykh.list.ListElement;
 import ru.academits.malykh.list.SinglyLinkedList;
 
 public class Main {
@@ -9,7 +10,11 @@ public class Main {
         list.addFirst(6);
         list.addFirst(1);
         list.addFirst(123);
-        System.out.println(list.removeFirstElement());
+        list.addFirst(56);
+        list.printList();
+        list.invertList();
+
+        //list.invertList(new ListElement(9));
         System.out.println();
         list.printList();
 
