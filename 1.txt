@@ -1,3 +1,3 @@
-book
-a
-circle
+int
+double
+string
