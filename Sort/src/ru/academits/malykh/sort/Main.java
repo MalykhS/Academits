@@ -15,6 +15,11 @@ public class Main {
     }
 
     public static void main(String[] args) {
+        if (args.length == 0) {
+            System.out.println("You did not enter arguments! For help, type: -help");
+            return;
+        }
+
         if (args[0].equals("-help")) {
             System.out.println("You must enter name input file, name output file and two options.");
             System.out.println("You can enter the following options:");
@@ -24,6 +29,7 @@ public class Main {
             System.out.println("-s -d for descending sort words");
             return;
         }
+
         if (args.length != 4) {
             System.out.println("You must enter 4 arguments! For help, type: -help");
             return;
@@ -36,10 +42,10 @@ public class Main {
                 case "-i":
                     switch (args[3]) {
                         case "-a":
-                            Utils.writeAscendingSortNumbersFile(scanner, writer);
+                            Utils.writeSortNumbersFile(scanner, writer, new SortNumbersComparator());
                             break;
                         case "-d":
-                            Utils.writeDescendingSortNumbersFile(scanner, writer);
+                            Utils.writeSortNumbersFile(scanner, writer, new SortNumbersComparator().reversed());
                             break;
                         default:
                             printIllegalFlag(args);
@@ -50,10 +56,10 @@ public class Main {
                 case "-s":
                     switch (args[3]) {
                         case "-a":
-                            Utils.writeAscendingSortStringsFile(scanner, writer);
+                            Utils.writeSortStringsFile(scanner, writer, new SortStringsComparator());
                             break;
                         case "-d":
-                            Utils.writeDescendingSortStringsFile(scanner, writer);
+                            Utils.writeSortStringsFile(scanner, writer, new SortStringsComparator().reversed());
                             break;
                         default:
                             printIllegalFlag(args);
