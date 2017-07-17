@@ -1,27 +1,27 @@
 package ru.academits.malykh.list;
 
-public class ListElement {
-    ListElement next; //ссылка на элемент
-    int data; //данные в узле
+public class ListElement<T> {
+    ListElement next;
+    T data;
 
-    public ListElement(int data) {
+    ListElement(T data) {
         this.data = data;
     }
 
-    ListElement(int data, ListElement next) {
+    ListElement(T data, ListElement next) {
         this.data = data;
         this.next = next;
     }
 
-    public ListElement getNext() {
+    ListElement getNext() {
         return next;
     }
 
-    public ListElement() {
+    ListElement() {
 
     }
 
-    public void setData(int data) {
+    public void setData(T data) {
         this.data = data;
     }
 
@@ -29,7 +29,7 @@ public class ListElement {
         this.next = next;
     }
 
-    public int getData() {
+    T getData() {
         return this.data;
     }
 
