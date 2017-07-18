@@ -1,19 +1,19 @@
 package ru.academits.malykh.list;
 
 public class ListElement<T> {
-    ListElement next;
-    T data;
+    private ListElement<T> next;
+    private T data;
 
-    ListElement(T data) {
+    public ListElement(T data) {
         this.data = data;
     }
 
-    ListElement(T data, ListElement next) {
+    ListElement(T data, ListElement<T> next) {
         this.data = data;
         this.next = next;
     }
 
-    ListElement getNext() {
+    ListElement<T> getNext() {
         return next;
     }
 
@@ -21,11 +21,11 @@ public class ListElement<T> {
 
     }
 
-    public void setData(T data) {
+    void setData(T data) {
         this.data = data;
     }
 
-    public void setNext(ListElement next) {
+    void setNext(ListElement<T> next) {
         this.next = next;
     }
 

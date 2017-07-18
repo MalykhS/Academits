@@ -1,7 +1,8 @@
 package ru.academits.malykh.list;
 
 public class SinglyLinkedList<T> {
-    private ListElement head;
+    private ListElement<T> head;
+    private int size;
 
     public void printList() {
         for (ListElement p = head; p != null; p = p.getNext()) {
@@ -22,17 +23,7 @@ public class SinglyLinkedList<T> {
     }
 
     public int getSize() {
-        int count = 0;
-        if (head != null) {
-            count++;
-            while (head.next != null) {
-                count++;
-                head = head.next;
-            }
-        } else {
-            return 0;
-        }
-        return count;
+        return size;
     }
 
     public ListElement getHead() {
@@ -43,10 +34,10 @@ public class SinglyLinkedList<T> {
         nullPointerException();
 
         int count = -1;
-        for (ListElement p = head; p != null; p = p.next) {
+        for (ListElement p = head; p != null; p = p.getNext()) {
             count++;
             if (count == index) {
-                return (int) p.data;
+                return (int) p.getData();
             }
         }
 
@@ -58,13 +49,11 @@ public class SinglyLinkedList<T> {
         nullPointerException();
         int count = -1;
 
-        for (ListElement p = head; p != null; p = p.next) {
+        for (ListElement<T> p = head; p != null; p = p.getNext()) {
             count++;
 
             if (count == index) {
-                ListElement p1 = new ListElement();
-                p1.data = p.data;
-                p.data = element;
+                p.setData(element);
             }
         }
 
@@ -76,7 +65,7 @@ public class SinglyLinkedList<T> {
 
         int count = -1;
         ListElement p;
-        for (p = head; p != null; p = p.next) {
+        for (p = head; p != null; p = p.getNext()) {
             count++;
             if (count == index) {
                 return p;
@@ -91,7 +80,7 @@ public class SinglyLinkedList<T> {
         nullPointerException();
 
         int count = -1;
-        for (ListElement p = head, prev = null; p != null; prev = p, p = p.next) {
+        for (ListElement<T> p = head, prev = null; p != null; prev = p, p = p.getNext()) {
             count++;
             if (count == index) {
                 if (index == 0) {
@@ -99,8 +88,9 @@ public class SinglyLinkedList<T> {
                     getDeletedFirstElement();
                 } else {
                     assert prev != null;
-                    prev.next = prev.next.next;
+                    prev.setNext(prev.getNext().getNext());
                 }
+                size--;
             }
         }
 
@@ -109,11 +99,12 @@ public class SinglyLinkedList<T> {
 
     public void addFirst(T element) {
         head = new ListElement<>(element, head);
+        size++;
     }
 
-    private void addElement(T element, int index) {
+    public void addElement(T element, int index) {
         int count = -1;
-        for (ListElement p = head, prev = null; p != null; prev = p, p = p.next) {
+        for (ListElement<T> p = head, prev = null; p != null; prev = p, p = p.getNext()) {
             count++;
             if (index == 0) {
                 addFirst(element);
@@ -121,7 +112,8 @@ public class SinglyLinkedList<T> {
             }
             if (count == index) {
                 assert prev != null;
-                prev.next = new ListElement<>(element, p);
+                prev.setNext(new ListElement<>(element, p));
+                size++;
             }
         }
 
@@ -131,20 +123,22 @@ public class SinglyLinkedList<T> {
     public void removeNodeByValue(T value) {
         nullPointerException();
 
-        for (ListElement p = head, prev = null; p != null; prev = p, p = p.next) {
-            if (p.data == value) {
+        for (ListElement<T> p = head, prev = null; p != null; prev = p, p = p.getNext()) {
+            if (p.getData() == value) {
                 assert prev != null;
-                prev.next = prev.next.next;
+                prev.setNext(prev.getNext().getNext());
+                size--;
             }
         }
     }
 
     public boolean removeNode(ListElement p1) {
 
-        ListElement p;
-        for (p = head; p != null; p = p.next) {
-            if (p.data == p1.data) {
-                p.next = p.next.next;
+        ListElement<T> p;
+        for (p = head; p != null; p = p.getNext()) {
+            if (p.getData() == p1.getData()) {
+                p.setNext(p.getNext().getNext());
+                size--;
                 return true;
             }
         }
@@ -152,31 +146,33 @@ public class SinglyLinkedList<T> {
     }
 
     public boolean addNode(ListElement<T> p1, ListElement<T> p2) {
-        for (ListElement p = head, prev = null; p != null; prev = p, p = p.next) {
-            if (p1.data.equals(0)) {
-                addElement(p2.data, 1);
+        for (ListElement<T> p = head, prev = null; p != null; prev = p, p = p.getNext()) {
+            if (p1.getData().equals(0)) {
+                addElement(p2.getData(), 1);
                 return true;
             }
-            if (p.data == p1.data) {
+            if (p.getData() == p1.getData()) {
                 assert prev != null;
-                prev.next.next = new ListElement<>(p2.data, p.next);
+                p.setNext(new ListElement<>(p2.getData(), p.getNext()));
+                size++;
                 return true;
             }
         }
         return false;
     }
 
-    private void getDeletedFirstElement() {
+    public void getDeletedFirstElement() {
         nullPointerException();
         head = head.getNext();
+        size--;
     }
 
-    private void invertList() {
-        ListElement p = head;
-        ListElement prev = null;
+    public void invertList() {
+        ListElement<T> p = head;
+        ListElement<T> prev = null;
         while (p != null) {
-            ListElement temp = p.next;
-            p.next = prev;
+            ListElement<T> temp = p.getNext();
+            p.setNext(prev);
             prev = p;
             head = p;
             p = temp;
@@ -184,8 +180,8 @@ public class SinglyLinkedList<T> {
     }
 
     public void copyList(SinglyLinkedList<T> list) {
-        for (ListElement p = list.head; p != null; p = p.next) {
-            head = new ListElement<>(p.data, head);
+        for (ListElement<T> p = list.head; p != null; p = p.getNext()) {
+            head = new ListElement<>(p.getData(), head);
         }
         list.invertList();
     }
