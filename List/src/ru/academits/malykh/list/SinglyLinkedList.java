@@ -54,9 +54,10 @@ public class SinglyLinkedList<T> {
             count++;
 
             if (count == index) {
+                p1.setData(p.getData());
                 p.setData(element);
+                return p1.getData();
             }
-            return p1.getData();
         }
 
         printArrayIndexOutOfBoundsException(index, count);

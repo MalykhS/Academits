@@ -13,7 +13,7 @@ public class Main {
         list.addFirst(1);
         list.addFirst(0);
 
-        list.setValue(1, 8);
+        System.out.println(list.setValue(1, 8));
         System.out.println();
 
         list.printList();
