@@ -54,7 +54,7 @@ public class SinglyLinkedList<T> {
         return 0;
     }
 
-    public void setValue(T element, int index) { //изменить значение по указанному индексу
+    public void setValue(T element, int index) {
         nullPointerException();
         int count = -1;
 
@@ -65,15 +65,13 @@ public class SinglyLinkedList<T> {
                 ListElement p1 = new ListElement();
                 p1.data = p.data;
                 p.data = element;
-                // return p1.data;
             }
         }
 
         arrayIndexOutOfBoundsException(index, count);
-        //return 0;
     }
 
-    public ListElement getNode(int index) {//получение узла по индексу
+    public ListElement getNode(int index) {
         nullPointerException();
 
         int count = -1;
@@ -89,7 +87,7 @@ public class SinglyLinkedList<T> {
         return null;
     }
 
-    public void getDeletedElement(int index) { //удаление элемента по индексу
+    public void getDeletedElement(int index) {
         nullPointerException();
 
         int count = -1;
@@ -99,17 +97,14 @@ public class SinglyLinkedList<T> {
                 if (index == 0) {
                     ListElement p1 = head;
                     getDeletedFirstElement();
-                    //return p1.getData();
                 } else {
                     assert prev != null;
                     prev.next = prev.next.next;
-                    //return p.data;
                 }
             }
         }
 
         arrayIndexOutOfBoundsException(index, count);
-        //return 0;
     }
 
     public void addFirst(T element) {
@@ -133,7 +128,7 @@ public class SinglyLinkedList<T> {
         arrayIndexOutOfBoundsException(index, count);
     }
 
-    public void removeNodeByValue(T value) { //удаление узла по значению ??????
+    public void removeNodeByValue(T value) {
         nullPointerException();
 
         for (ListElement p = head, prev = null; p != null; prev = p, p = p.next) {
@@ -189,17 +184,9 @@ public class SinglyLinkedList<T> {
     }
 
     public void copyList(SinglyLinkedList<T> list) {
-        SinglyLinkedList<T> list1 = new SinglyLinkedList<>();
-        ListElement p1 = new ListElement<>();
-        for (ListElement p = head; p != null; p = p.next) {
-            p1.data = p.data;
-            list1.addFirst((T) p1.data);
-            /*p1 = new ListElement<>();
-            p1.data = p.data;
-            list1.addFirst((T) p.data);
-            /*p1 = new ListElement(p.data);
-            list1.addFirst(p1.data);*/
+        for (ListElement p = list.head; p != null; p = p.next) {
+            head = new ListElement<>(p.data, head);
         }
-        //list.invertList();
+        list.invertList();
     }
 }
