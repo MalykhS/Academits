@@ -5,18 +5,18 @@ public class SinglyLinkedList<T> {
     private int size;
 
     public void printList() {
-        for (ListElement p = head; p != null; p = p.getNext()) {
+        for (ListElement<T> p = head; p != null; p = p.getNext()) {
             System.out.println(p.getData());
         }
     }
 
-    private void nullPointerException() {
+    private void printListEmpty() {
         if (head == null) {
             throw new NullPointerException("List is empty!");
         }
     }
 
-    private void arrayIndexOutOfBoundsException(int index, int count) {
+    private void printArrayIndexOutOfBoundsException(int index, int count) {
         if (index > count || index < 0) {
             throw new ArrayIndexOutOfBoundsException("There is no such index in the list!");
         }
@@ -30,24 +30,25 @@ public class SinglyLinkedList<T> {
         return head;
     }
 
-    public int getListElement(int index) {
-        nullPointerException();
+    public T getListElement(int index) {
+        printListEmpty();
 
         int count = -1;
-        for (ListElement p = head; p != null; p = p.getNext()) {
+        for (ListElement<T> p = head; p != null; p = p.getNext()) {
             count++;
             if (count == index) {
-                return (int) p.getData();
+                return p.getData();
             }
         }
 
-        arrayIndexOutOfBoundsException(index, count);
-        return 0;
+        printArrayIndexOutOfBoundsException(index, count);
+        return null;
     }
 
-    public void setValue(T element, int index) {
-        nullPointerException();
+    public T setValue(int index, T element) {
+        printListEmpty();
         int count = -1;
+        ListElement<T> p1 = new ListElement<>();
 
         for (ListElement<T> p = head; p != null; p = p.getNext()) {
             count++;
@@ -55,16 +56,18 @@ public class SinglyLinkedList<T> {
             if (count == index) {
                 p.setData(element);
             }
+            return p1.getData();
         }
 
-        arrayIndexOutOfBoundsException(index, count);
+        printArrayIndexOutOfBoundsException(index, count);
+        return null;
     }
 
-    public ListElement getNode(int index) {
-        nullPointerException();
+    public ListElement<T> getNode(int index) {
+        printListEmpty();
 
         int count = -1;
-        ListElement p;
+        ListElement<T> p;
         for (p = head; p != null; p = p.getNext()) {
             count++;
             if (count == index) {
@@ -72,12 +75,12 @@ public class SinglyLinkedList<T> {
             }
         }
 
-        arrayIndexOutOfBoundsException(index, count);
+        printArrayIndexOutOfBoundsException(index, count);
         return null;
     }
 
     public void getDeletedElement(int index) {
-        nullPointerException();
+        printListEmpty();
 
         int count = -1;
         for (ListElement<T> p = head, prev = null; p != null; prev = p, p = p.getNext()) {
@@ -94,7 +97,7 @@ public class SinglyLinkedList<T> {
             }
         }
 
-        arrayIndexOutOfBoundsException(index, count);
+        printArrayIndexOutOfBoundsException(index, count);
     }
 
     public void addFirst(T element) {
@@ -117,11 +120,11 @@ public class SinglyLinkedList<T> {
             }
         }
 
-        arrayIndexOutOfBoundsException(index, count);
+        printArrayIndexOutOfBoundsException(index, count);
     }
 
     public void removeNodeByValue(T value) {
-        nullPointerException();
+        printListEmpty();
 
         for (ListElement<T> p = head, prev = null; p != null; prev = p, p = p.getNext()) {
             if (p.getData() == value) {
@@ -132,7 +135,7 @@ public class SinglyLinkedList<T> {
         }
     }
 
-    public boolean removeNode(ListElement p1) {
+    public boolean removeNode(ListElement<T> p1) {
 
         ListElement<T> p;
         for (p = head; p != null; p = p.getNext()) {
@@ -162,7 +165,7 @@ public class SinglyLinkedList<T> {
     }
 
     public void getDeletedFirstElement() {
-        nullPointerException();
+        printListEmpty();
         head = head.getNext();
         size--;
     }
