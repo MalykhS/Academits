@@ -10,14 +10,14 @@ public class SinglyLinkedList<T> {
         }
     }
 
-    private void printListEmpty() {
+    private void printCheckListEmpty() {
         if (head == null) {
             throw new NullPointerException("List is empty!");
         }
     }
 
-    private void printArrayIndexOutOfBoundsException(int index, int count) {
-        if (index > count || index < 0) {
+    private void printCheckPresenceListItem(int index) {
+        if (index > getSize() || index < 0) {
             throw new ArrayIndexOutOfBoundsException("There is no such index in the list!");
         }
     }
@@ -26,27 +26,18 @@ public class SinglyLinkedList<T> {
         return size;
     }
 
-    public ListElement getHead() {
+    public ListElement<T> getHead() {
         return head;
     }
 
     public T getListElement(int index) {
-        printListEmpty();
-
-        int count = -1;
-        for (ListElement<T> p = head; p != null; p = p.getNext()) {
-            count++;
-            if (count == index) {
-                return p.getData();
-            }
-        }
-
-        printArrayIndexOutOfBoundsException(index, count);
-        return null;
+        return getNode(index).getData();
     }
 
     public T setValue(int index, T element) {
-        printListEmpty();
+        printCheckListEmpty();
+        printCheckPresenceListItem(index);
+
         int count = -1;
         ListElement<T> p1 = new ListElement<>();
 
@@ -59,13 +50,12 @@ public class SinglyLinkedList<T> {
                 return p1.getData();
             }
         }
-
-        printArrayIndexOutOfBoundsException(index, count);
         return null;
     }
 
     public ListElement<T> getNode(int index) {
-        printListEmpty();
+        printCheckListEmpty();
+        printCheckPresenceListItem(index);
 
         int count = -1;
         ListElement<T> p;
@@ -75,20 +65,18 @@ public class SinglyLinkedList<T> {
                 return p;
             }
         }
-
-        printArrayIndexOutOfBoundsException(index, count);
         return null;
     }
 
     public void getDeletedElement(int index) {
-        printListEmpty();
+        printCheckListEmpty();
+        printCheckPresenceListItem(index);
 
         int count = -1;
         for (ListElement<T> p = head, prev = null; p != null; prev = p, p = p.getNext()) {
             count++;
             if (count == index) {
                 if (index == 0) {
-                    ListElement p1 = head;
                     getDeletedFirstElement();
                 } else {
                     assert prev != null;
@@ -97,8 +85,6 @@ public class SinglyLinkedList<T> {
                 size--;
             }
         }
-
-        printArrayIndexOutOfBoundsException(index, count);
     }
 
     public void addFirst(T element) {
@@ -106,7 +92,10 @@ public class SinglyLinkedList<T> {
         size++;
     }
 
-    public void addElement(T element, int index) {
+    public void addElement(int index, T element) {
+
+        printCheckPresenceListItem(index);
+
         int count = -1;
         for (ListElement<T> p = head, prev = null; p != null; prev = p, p = p.getNext()) {
             count++;
@@ -120,15 +109,13 @@ public class SinglyLinkedList<T> {
                 size++;
             }
         }
-
-        printArrayIndexOutOfBoundsException(index, count);
     }
 
     public void removeNodeByValue(T value) {
-        printListEmpty();
+        printCheckListEmpty();
 
         for (ListElement<T> p = head, prev = null; p != null; prev = p, p = p.getNext()) {
-            if (p.getData() == value) {
+            if (p.getData().equals(value)) {
                 assert prev != null;
                 prev.setNext(prev.getNext().getNext());
                 size--;
@@ -140,7 +127,7 @@ public class SinglyLinkedList<T> {
 
         ListElement<T> p;
         for (p = head; p != null; p = p.getNext()) {
-            if (p.getData() == p1.getData()) {
+            if (p.getData().equals(p1.getData())) {
                 p.setNext(p.getNext().getNext());
                 size--;
                 return true;
@@ -152,10 +139,10 @@ public class SinglyLinkedList<T> {
     public boolean addNode(ListElement<T> p1, ListElement<T> p2) {
         for (ListElement<T> p = head, prev = null; p != null; prev = p, p = p.getNext()) {
             if (p1.getData().equals(0)) {
-                addElement(p2.getData(), 1);
+                addElement(1, p2.getData());
                 return true;
             }
-            if (p.getData() == p1.getData()) {
+            if (p.getData().equals(p1.getData())) {
                 assert prev != null;
                 p.setNext(new ListElement<>(p2.getData(), p.getNext()));
                 size++;
@@ -166,7 +153,7 @@ public class SinglyLinkedList<T> {
     }
 
     public void getDeletedFirstElement() {
-        printListEmpty();
+        printCheckListEmpty();
         head = head.getNext();
         size--;
     }
