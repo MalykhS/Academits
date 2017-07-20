@@ -39,10 +39,13 @@ public class SinglyLinkedList<T> {
         printCheckPresenceListItem(index);
 
         ListElement<T> p = new ListElement<>();
-        p.setData(getNode(index).getData());
+        //p.setData(getNode(index).getData());
+
+
 
         getNode(index).setData(element);
-        return p.getData();
+        return getNode(index).getData();
+        //return p.getData();
     }
 
     public ListElement<T> getNode(int index) {
@@ -60,7 +63,7 @@ public class SinglyLinkedList<T> {
         return null;
     }
 
-    public T getDeletedElement(int index) {
+    public T deletedElement(int index) {
         printCheckListEmpty();
         printCheckPresenceListItem(index);
 
@@ -110,7 +113,7 @@ public class SinglyLinkedList<T> {
         return false;
     }
 
-    public boolean removeNode(ListElement<T> p1) {
+    public boolean removeAfterNode(ListElement<T> p1) {
 
         ListElement<T> p;
         for (p = head; p != null; p = p.getNext()) {
@@ -136,9 +139,10 @@ public class SinglyLinkedList<T> {
 
     public T getDeletedFirstElement() {
         printCheckListEmpty();
+        ListElement<T> p = head;
         head = head.getNext();
         size--;
-        return head.getData();
+        return p.getData();
     }
 
     public void invertList() {
