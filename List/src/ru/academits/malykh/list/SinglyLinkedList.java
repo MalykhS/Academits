@@ -10,14 +10,14 @@ public class SinglyLinkedList<T> {
         }
     }
 
-    private void printCheckListEmpty() {
+    private void checkListIsEmpty() {
         if (head == null) {
             throw new NullPointerException("List is empty!");
         }
     }
 
-    private void printCheckPresenceListItem(int index) {
-        if (index > getSize() || index < 0) {
+    private void checkListItemIsPresence(int index) {
+        if (index > getSize() - 1 || index < 0) {
             throw new ArrayIndexOutOfBoundsException("There is no such index in the list!");
         }
     }
@@ -35,22 +35,18 @@ public class SinglyLinkedList<T> {
     }
 
     public T setValue(int index, T element) {
-        printCheckListEmpty();
-        printCheckPresenceListItem(index);
+        checkListIsEmpty();
+        checkListItemIsPresence(index);
 
-        ListElement<T> p = new ListElement<>();
-        //p.setData(getNode(index).getData());
-
-
-
-        getNode(index).setData(element);
-        return getNode(index).getData();
-        //return p.getData();
+        ListElement<T> temp = getNode(index);
+        T valueOld = temp.getData();
+        temp.setData(element);
+        return valueOld;
     }
 
     public ListElement<T> getNode(int index) {
-        printCheckListEmpty();
-        printCheckPresenceListItem(index);
+        checkListIsEmpty();
+        checkListItemIsPresence(index);
 
         int count = -1;
         ListElement<T> p;
@@ -63,19 +59,22 @@ public class SinglyLinkedList<T> {
         return null;
     }
 
-    public T deletedElement(int index) {
-        printCheckListEmpty();
-        printCheckPresenceListItem(index);
+    public T deleteElement(int index) {
+        checkListIsEmpty();
+        checkListItemIsPresence(index);
 
+        ListElement<T> temp;
+        ListElement<T> temp1 = new ListElement<>();
         if (index == 0) {
             getDeletedFirstElement();
-
         } else {
-            getNode(index - 1).setNext(getNode(index).getNext());
+            temp = getNode(index - 1);
+            temp1 = temp.getNext();
+            temp.setNext(temp.getNext().getNext());
+            size--;
         }
-        size--;
 
-        return getNode(index).getData();
+        return temp1.getData();
     }
 
     public void addFirst(T element) {
@@ -85,18 +84,18 @@ public class SinglyLinkedList<T> {
 
     public void addElement(int index, T element) {
 
-        printCheckPresenceListItem(index);
+        checkListItemIsPresence(index);
         getNode(index);
         if (index == 0) {
             addFirst(element);
         } else {
             getNode(index - 1).setNext(new ListElement<>(element, getNode(index)));
+            size++;
         }
-        size++;
     }
 
     public boolean removeNodeByValue(T value) {
-        printCheckListEmpty();
+        checkListIsEmpty();
 
         for (ListElement<T> p = head, prev = null; p != null; prev = p, p = p.getNext()) {
             if (value.equals(0)) {
@@ -127,7 +126,7 @@ public class SinglyLinkedList<T> {
     }
 
     public boolean addAfterNode(ListElement<T> p1, T value) {
-        printCheckListEmpty();
+        checkListIsEmpty();
         for (ListElement<T> p = head; p != null; p = p.getNext()) {
             if (p.getData().equals(p1.getData())) {
                 p.setNext(new ListElement<>(value, p.getNext()));
@@ -138,7 +137,7 @@ public class SinglyLinkedList<T> {
     }
 
     public T getDeletedFirstElement() {
-        printCheckListEmpty();
+        checkListIsEmpty();
         ListElement<T> p = head;
         head = head.getNext();
         size--;
@@ -157,14 +156,27 @@ public class SinglyLinkedList<T> {
         }
     }
 
+    public void addLast(T element) {
+        if (head == null) {
+            addFirst(element);
+            return;
+        }
+        for (ListElement<T> p = head; p != null; p = p.getNext()) {
+            if (p.getNext() == null) {
+                addAfterNode(p, element);
+                size++;
+                return;
+            }
+        }
+    }
+
     public SinglyLinkedList<T> copyList() {
         SinglyLinkedList<T> list1 = new SinglyLinkedList<>();
         ListElement<T> p1;
         for (ListElement<T> p = head; p != null; p = p.getNext()) {
             p1 = new ListElement<>(p.getData());
-            list1.addFirst(p1.getData());
+            list1.addLast(p1.getData());
         }
-        list1.invertList();
 
         return list1;
     }
