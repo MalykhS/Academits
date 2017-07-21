@@ -1,5 +1,6 @@
 package ru.academits.malykh.main;
 
+import ru.academits.malykh.list.ListElement;
 import ru.academits.malykh.list.SinglyLinkedList;
 
 public class Main {
@@ -14,7 +15,7 @@ public class Main {
         list.addFirst(1);
         list.addFirst(0);
 
-        System.out.println(list.removeNodeByValue(0));
+        list.removeAfterNode(new ListElement<>(1));
 
         System.out.println();
 

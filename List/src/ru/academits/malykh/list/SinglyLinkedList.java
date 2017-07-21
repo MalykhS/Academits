@@ -17,7 +17,7 @@ public class SinglyLinkedList<T> {
     }
 
     private void checkListItemIsPresence(int index) {
-        if (index > getSize() - 1 || index < 0) {
+        if (index >= getSize() || index < 0) {
             throw new ArrayIndexOutOfBoundsException("There is no such index in the list!");
         }
     }
@@ -63,12 +63,11 @@ public class SinglyLinkedList<T> {
         checkListIsEmpty();
         checkListItemIsPresence(index);
 
-        ListElement<T> temp;
         ListElement<T> temp1 = new ListElement<>();
         if (index == 0) {
-            getDeletedFirstElement();
+            return getDeletedFirstElement();
         } else {
-            temp = getNode(index - 1);
+            ListElement<T> temp = getNode(index - 1);
             temp1 = temp.getNext();
             temp.setNext(temp.getNext().getNext());
             size--;
@@ -89,7 +88,8 @@ public class SinglyLinkedList<T> {
         if (index == 0) {
             addFirst(element);
         } else {
-            getNode(index - 1).setNext(new ListElement<>(element, getNode(index)));
+            ListElement<T> temp = getNode(index - 1);
+            temp.setNext(new ListElement<>(element, temp.getNext()));
             size++;
         }
     }
@@ -114,15 +114,21 @@ public class SinglyLinkedList<T> {
 
     public boolean removeAfterNode(ListElement<T> p1) {
 
-        ListElement<T> p;
-        for (p = head; p != null; p = p.getNext()) {
+        //System.out.println(p1.getData());
+        //System.out.println(p1.getData());
+            p1.setNext(p1.getNext());
+        //p1.setNext(p1.getNext());
+        /*ListElement<T> p;
+        p1.setNext(p1.getNext().getNext()); */
+        return true;
+        /*for (p = head; p != null; p = p.getNext()) {
             if (p.getData().equals(p1.getData())) {
                 p.setNext(p.getNext().getNext());
                 size--;
                 return true;
             }
-        }
-        return false;
+        } */
+        //return false;
     }
 
     public boolean addAfterNode(ListElement<T> p1, T value) {
