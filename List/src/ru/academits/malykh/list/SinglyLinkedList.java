@@ -1,197 +1,177 @@
 package ru.academits.malykh.list;
 
-public class SinglyLinkedList {
-    private ListElement head;
-    private ListElement tail;
+public class SinglyLinkedList<T> {
+    private ListElement<T> head;
+    private int size;
 
     public void printList() {
-        for (ListElement p = head; p != null; p = p.getNext()) {
+        for (ListElement<T> p = head; p != null; p = p.getNext()) {
             System.out.println(p.getData());
         }
     }
 
-    private void getNullPointerException() {
+    private void checkListIsEmpty() {
         if (head == null) {
             throw new NullPointerException("List is empty!");
         }
     }
 
-    private void getArrayIndexOutOfBoundsException(int index, int count) {
-        if (index > count || index < 0) {
+    private void checkListItemIsPresence(int index) {
+        if (index >= getSize() || index < 0) {
             throw new ArrayIndexOutOfBoundsException("There is no such index in the list!");
         }
     }
 
     public int getSize() {
-        int count = 0;
-        if (head != null) {
-            count++;
-            while (head.next != null) {
-                count++;
-                head = head.next;
-            }
-        } else {
-            return 0;
-        }
-        return count;
+        return size;
     }
 
-    public ListElement getHead() {
+    public ListElement<T> getHead() {
         return head;
     }
 
-    public int getListElement(int index) { //получить значение по указанному индексу
-        getNullPointerException();
-
-        int count = -1;
-        for (ListElement p = head; p != null; p = p.next) {
-            count++;
-            if (count == index) {
-                return p.data;
-            }
-        }
-
-        getArrayIndexOutOfBoundsException(index, count);
-        return 0;
+    public T getListElement(int index) {
+        return getNode(index).getData();
     }
 
-    public int setValue(int element, int index) { //изменить значение по указанному индексу
-        getNullPointerException();
-        int count = -1;
+    public T setValue(int index, T element) {
+        checkListIsEmpty();
+        checkListItemIsPresence(index);
 
-        for (ListElement p = head; p != null; p = p.next) {
-            count++;
-
-            if (count == index) {
-                ListElement p1 = new ListElement();
-                p1.data = p.data;
-                p.data = element;
-                return p1.data;
-            }
-        }
-
-        getArrayIndexOutOfBoundsException(index, count);
-        return 0;
+        ListElement<T> temp = getNode(index);
+        T valueOld = temp.getData();
+        temp.setData(element);
+        return valueOld;
     }
 
-    public ListElement getNode(int index) {//получение узла по индексу
-        getNullPointerException();
+    public ListElement<T> getNode(int index) {
+        checkListIsEmpty();
+        checkListItemIsPresence(index);
 
         int count = -1;
-        ListElement p;
-        for (p = head; p != null; p = p.next) {
+        ListElement<T> p;
+        for (p = head; p != null; p = p.getNext()) {
             count++;
             if (count == index) {
                 return p;
             }
         }
-
-        getArrayIndexOutOfBoundsException(index, count);
         return null;
     }
 
-    public int getDeletedElement(int index) { //удаление элемента по индексу
-        getNullPointerException();
+    public T deleteElement(int index) {
+        checkListIsEmpty();
+        checkListItemIsPresence(index);
 
-        int count = -1;
-        for (ListElement p = head, prev = null; p != null; prev = p, p = p.next) {
-            count++;
-            if (count == index) {
-                if (index == 0) {
-                    ListElement p1 = head;
-                    getDeletedFirstElement();
-                    return p1.getData();
-                } else {
-                    assert prev != null;
-                    prev.next = prev.next.next;
-                    return p.data;
-                }
-            }
+        T oldValue;
+        if (index == 0) {
+            return getDeletedFirstElement();
+        } else {
+            ListElement<T> temp = getNode(index - 1);
+            oldValue = temp.getNext().getData();
+            temp.setNext(temp.getNext().getNext());
+            size--;
         }
 
-        getArrayIndexOutOfBoundsException(index, count);
-        return 0;
+        return oldValue;
     }
 
-    public void addFirst(int element) {
-        head = new ListElement(element, head);
+    public void addFirst(T element) {
+        head = new ListElement<>(element, head);
+        size++;
     }
 
-    public void addElement(int element, int index) {
-        int count = -1;
-        for (ListElement p = head, prev = null; p != null; prev = p, p = p.next) {
-            count++;
-            if (index == 0) {
-                addFirst(element);
-                return;
+    public void addElement(int index, T element) {
+
+        checkListItemIsPresence(index);
+        getNode(index);
+        if (index == 0) {
+            addFirst(element);
+        } else {
+            ListElement<T> temp = getNode(index - 1);
+            temp.setNext(new ListElement<>(element, temp.getNext()));
+            size++;
+        }
+    }
+
+    public boolean removeNodeByValue(T value) {
+        checkListIsEmpty();
+
+        for (ListElement<T> p = head, prev = null; p != null; prev = p, p = p.getNext()) {
+            if (p.getData() == null) {
+                continue;
             }
-            if (count == index) {
+            if (value.equals(head.getData())) {
+                getDeletedFirstElement();
+                return true;
+            }
+            if (p.getData().equals(value)) {
                 assert prev != null;
-                prev.next = new ListElement(element, p);
+                prev.setNext(prev.getNext().getNext());
+                size--;
+                return true;
             }
         }
 
-        getArrayIndexOutOfBoundsException(index, count);
+        return false;
     }
 
-    public void removeNodeByValue(int value) { //удаление узла по значению ??????
-        getNullPointerException();
-
-        for (ListElement p = head, prev = null; p != null; prev = p, p = p.next) {
-            if (p.data == value) {
-                assert prev != null;
-                prev.next = prev.next.next;
+    public void removeAfterNode(ListElement<T> p) {
+        try {
+            if (p.getNext() == null) {
+                throw new ArrayIndexOutOfBoundsException();
+            } else {
+                p.setNext(p.getNext().getNext());
+                size--;
             }
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("This is the last element in the list!");
         }
     }
 
-    public void removeNode(ListElement p1) { // выход за пределы ???
-        getNullPointerException();
-
-        ListElement p;
-        for (p = head; p != null; p = p.next) {
-            if (p.data == p1.data) {
-                p.next = p.next.next;
-                return;
-            }
-        }
+    public void addAfterNode(ListElement<T> p, T value) {
+        p.setNext(new ListElement<>(value, p.getNext()));
+        size++;
     }
 
-    public void addNode(ListElement p1, int element) {
-        for (ListElement p = head, prev = null; p != null; prev = p, p = p.next) {
-            if (p.data == p1.data) {
-                assert prev != null;
-                prev.next.next = new ListElement(element, p.next);
-            }
-        }
-    }
-
-    private void getDeletedFirstElement() {
-        getNullPointerException();
+    public T getDeletedFirstElement() {
+        checkListIsEmpty();
+        ListElement<T> p = head;
         head = head.getNext();
+        size--;
+        return p.getData();
     }
 
     public void invertList() {
-        ListElement p = head;
-        ListElement prev = null;
+        ListElement<T> p = head;
+        ListElement<T> prev = null;
         while (p != null) {
-            ListElement temp = p.next;
-            p.next = prev;
+            ListElement<T> temp = p.getNext();
+            p.setNext(prev);
             prev = p;
             head = p;
             p = temp;
         }
     }
 
-    /*public SinglyLinkedList copyList(SinglyLinkedList list) {
-        SinglyLinkedList list1 = new SinglyLinkedList();
-        for (ListElement p1 = head; p1 != null; p1 = p1.next) {
-            for (ListElement p = head; p != null; p = p.next) {
-                p.data = p1.data;
-                p.next = p1.next;
-            }
-
+    public void addLast(T element) {
+        if (head == null) {
+            addFirst(element);
+            return;
         }
+
+        addAfterNode(getNode(getSize() - 1), element);
+    }
+
+    public SinglyLinkedList<T> copyList() {
+        SinglyLinkedList<T> list1 = new SinglyLinkedList<>();
+        ListElement<T> p1;
+
+        for (ListElement<T> p = head; p != null; p = p.getNext()) {
+            p1 = new ListElement<>(p.getData());
+            list1.addLast(p1.getData());
+        }
+
         return list1;
-    } */
+    }
 }

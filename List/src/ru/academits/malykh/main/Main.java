@@ -1,20 +1,24 @@
 package ru.academits.malykh.main;
 
+import ru.academits.malykh.list.ListElement;
 import ru.academits.malykh.list.SinglyLinkedList;
 
 public class Main {
     public static void main(String[] args) {
-        SinglyLinkedList list = new SinglyLinkedList();
-        SinglyLinkedList list1 = new SinglyLinkedList();
-        list.addFirst(4);
-        list.addFirst(33);
-        list.addFirst(2);
-        list.addFirst(1);
-        list.addFirst(0);
-        //System.out.println(list1.copyList(list));
-        System.out.println();
-        list.printList();
+        SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+        SinglyLinkedList<Integer> list1 = new SinglyLinkedList<>();
 
-        //System.out.println(list.getListElement(6));
+        list.addFirst(100);
+        list.addFirst(8);
+        list.addFirst(2);
+        list.addFirst(null);
+        list.addFirst(10);
+        list.addFirst(0);
+
+        list.copyList().printList();
+
+        System.out.println();
+
+        list.printList();
     }
 }
