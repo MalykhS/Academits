@@ -4,7 +4,7 @@ public class ListElement<T> {
     private ListElement<T> next;
     private T data;
 
-    public ListElement(T data) {
+    ListElement(T data) {
         this.data = data;
     }
 
@@ -15,10 +15,6 @@ public class ListElement<T> {
 
     ListElement<T> getNext() {
         return next;
-    }
-
-    ListElement() {
-
     }
 
     void setData(T data) {
