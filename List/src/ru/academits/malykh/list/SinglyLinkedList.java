@@ -63,17 +63,16 @@ public class SinglyLinkedList<T> {
         checkListIsEmpty();
         checkListItemIsPresence(index);
 
-        ListElement<T> temp1 = new ListElement<>();
+        T oldValue;
         if (index == 0) {
             return getDeletedFirstElement();
         } else {
             ListElement<T> temp = getNode(index - 1);
-            temp1 = temp.getNext();
-            temp.setNext(temp.getNext().getNext());
-            size--;
+            oldValue = temp.getNext().getData();
+            removeAfterNode(temp);
         }
 
-        return temp1.getData();
+        return oldValue;
     }
 
     public void addFirst(T element) {
@@ -83,25 +82,28 @@ public class SinglyLinkedList<T> {
 
     public void addElement(int index, T element) {
 
-        checkListItemIsPresence(index);
-        getNode(index);
-        if (index == 0) {
+        if (index == 0 || head == null) {
             addFirst(element);
         } else {
             ListElement<T> temp = getNode(index - 1);
-            temp.setNext(new ListElement<>(element, temp.getNext()));
-            size++;
+            addAfterNode(temp, element);
         }
     }
 
     public boolean removeNodeByValue(T value) {
         checkListIsEmpty();
 
+        if (value.equals(head.getData())) {
+            getDeletedFirstElement();
+            return true;
+        }
+
         for (ListElement<T> p = head, prev = null; p != null; prev = p, p = p.getNext()) {
-            if (value.equals(0)) {
-                getDeletedFirstElement();
-                return true;
+
+            if (p.getData() == null) {
+                continue;
             }
+
             if (p.getData().equals(value)) {
                 assert prev != null;
                 prev.setNext(prev.getNext().getNext());
@@ -109,37 +111,21 @@ public class SinglyLinkedList<T> {
                 return true;
             }
         }
+
         return false;
     }
 
-    public boolean removeAfterNode(ListElement<T> p1) {
-
-        //System.out.println(p1.getData());
-        //System.out.println(p1.getData());
-            p1.setNext(p1.getNext());
-        //p1.setNext(p1.getNext());
-        /*ListElement<T> p;
-        p1.setNext(p1.getNext().getNext()); */
-        return true;
-        /*for (p = head; p != null; p = p.getNext()) {
-            if (p.getData().equals(p1.getData())) {
-                p.setNext(p.getNext().getNext());
-                size--;
-                return true;
-            }
-        } */
-        //return false;
-    }
-
-    public boolean addAfterNode(ListElement<T> p1, T value) {
-        checkListIsEmpty();
-        for (ListElement<T> p = head; p != null; p = p.getNext()) {
-            if (p.getData().equals(p1.getData())) {
-                p.setNext(new ListElement<>(value, p.getNext()));
-                return true;
-            }
+    public void removeAfterNode(ListElement<T> p) {
+        if (p.getNext() == null) {
+            return;
         }
-        return false;
+        p.setNext(p.getNext().getNext());
+        size--;
+    }
+
+    public void addAfterNode(ListElement<T> p, T value) {
+        p.setNext(new ListElement<>(value, p.getNext()));
+        size++;
     }
 
     public T getDeletedFirstElement() {
@@ -162,26 +148,13 @@ public class SinglyLinkedList<T> {
         }
     }
 
-    public void addLast(T element) {
-        if (head == null) {
-            addFirst(element);
-            return;
-        }
-        for (ListElement<T> p = head; p != null; p = p.getNext()) {
-            if (p.getNext() == null) {
-                addAfterNode(p, element);
-                size++;
-                return;
-            }
-        }
-    }
-
     public SinglyLinkedList<T> copyList() {
         SinglyLinkedList<T> list1 = new SinglyLinkedList<>();
         ListElement<T> p1;
+
         for (ListElement<T> p = head; p != null; p = p.getNext()) {
             p1 = new ListElement<>(p.getData());
-            list1.addLast(p1.getData());
+            list1.addElement(list1.getSize(), p1.getData());
         }
 
         return list1;
