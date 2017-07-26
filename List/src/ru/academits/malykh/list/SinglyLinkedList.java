@@ -82,7 +82,7 @@ public class SinglyLinkedList<T> {
 
     public void addElement(int index, T element) {
 
-        if (index == 0 || head == null) {
+        if (index == 0) {
             addFirst(element);
         } else {
             ListElement<T> temp = getNode(index - 1);
@@ -99,7 +99,6 @@ public class SinglyLinkedList<T> {
         }
 
         for (ListElement<T> p = head, prev = null; p != null; prev = p, p = p.getNext()) {
-
             if (p.getData() == null) {
                 continue;
             }
@@ -111,16 +110,16 @@ public class SinglyLinkedList<T> {
                 return true;
             }
         }
-
         return false;
     }
 
     public void removeAfterNode(ListElement<T> p) {
         if (p.getNext() == null) {
-            return;
+            throw new ArrayIndexOutOfBoundsException("This is the last element in the list!");
+        } else {
+            p.setNext(p.getNext().getNext());
+            size--;
         }
-        p.setNext(p.getNext().getNext());
-        size--;
     }
 
     public void addAfterNode(ListElement<T> p, T value) {
@@ -137,6 +136,7 @@ public class SinglyLinkedList<T> {
     }
 
     public void invertList() {
+        SinglyLinkedList<T> list = new SinglyLinkedList<>();
         ListElement<T> p = head;
         ListElement<T> prev = null;
         while (p != null) {
@@ -148,15 +148,33 @@ public class SinglyLinkedList<T> {
         }
     }
 
+    public void addLast(T value) {
+        ListElement<T> p = head;
+        ListElement<T> t = new ListElement<>();
+
+        if (head == null) {
+            addFirst(value);
+        } else {
+            t.setData(value);
+            t.setNext(null);
+            while (p.getNext() != null) {
+                p = p.getNext();
+            }
+            p.setNext(t);
+        }
+    }
+
     public SinglyLinkedList<T> copyList() {
         SinglyLinkedList<T> list1 = new SinglyLinkedList<>();
+
         ListElement<T> p1;
 
         for (ListElement<T> p = head; p != null; p = p.getNext()) {
             p1 = new ListElement<>(p.getData());
-            list1.addElement(list1.getSize(), p1.getData());
+            list1.addLast(p1.getData());
         }
 
         return list1;
     }
 }
+
