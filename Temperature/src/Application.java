@@ -1,12 +1,20 @@
+import ru.academits.malykh.common.TemperatureConverter;
+import ru.academits.malykh.common.View;
+import ru.academits.malykh.controller.Controller;
 import ru.academits.malykh.gui.FrameView;
-
-import javax.swing.*;
-import java.awt.*;
+import ru.academits.malykh.model.CelsiusToKelvinConverter;
+import ru.academits.malykh.model.FahrenheitToKelvinConverter;
 
 public class Application {
     public static void main(String[] args) {
-        FrameView frameView = new FrameView();
-        frameView.createFrame();
-        frameView.createContent();
+        View view = new FrameView();
+
+        TemperatureConverter converter = new FahrenheitToKelvinConverter();
+
+        Controller controller = new Controller(converter, view);
+
+        view.addViewListener(controller);
+
+        view.startApplication();
     }
 }
