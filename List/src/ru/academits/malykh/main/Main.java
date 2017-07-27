@@ -15,7 +15,9 @@ public class Main {
         list.addFirst(1);
         list.addFirst(0);
 
-        list.removeNodeByValue(7);
+        list.removeNodeByValue(1);
+
+        //list.copyList().printList();
 
 
         list.printList();

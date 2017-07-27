@@ -98,9 +98,22 @@ public class SinglyLinkedList<T> {
             return true;
         }
 
+
         for (ListElement<T> p = head, prev = null; p != null; prev = p, p = p.getNext()) {
-            if (p.getData() == null) {
+
+            if (value == null) {
+                prev.setNext(prev.getNext().getNext());
+            }
+
+
+           /* if (p.getData() == null) {
                 continue;
+            }
+
+            int count = 0;
+
+            if (value == null) {
+                deleteElement(count);
             }
 
             if (p.getData().equals(value)) {
@@ -109,6 +122,7 @@ public class SinglyLinkedList<T> {
                 size--;
                 return true;
             }
+            count++; */
         }
         return false;
     }
@@ -136,7 +150,6 @@ public class SinglyLinkedList<T> {
     }
 
     public void invertList() {
-        SinglyLinkedList<T> list = new SinglyLinkedList<>();
         ListElement<T> p = head;
         ListElement<T> prev = null;
         while (p != null) {
@@ -146,6 +159,7 @@ public class SinglyLinkedList<T> {
             head = p;
             p = temp;
         }
+
     }
 
     public void addLast(T value) {
@@ -167,12 +181,10 @@ public class SinglyLinkedList<T> {
     public SinglyLinkedList<T> copyList() {
         SinglyLinkedList<T> list1 = new SinglyLinkedList<>();
 
-        ListElement<T> p1;
-
         for (ListElement<T> p = head; p != null; p = p.getNext()) {
-            p1 = new ListElement<>(p.getData());
-            list1.addLast(p1.getData());
+            list1.addLast(p.getData());
         }
+
 
         return list1;
     }
