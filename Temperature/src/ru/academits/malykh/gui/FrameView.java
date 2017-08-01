@@ -23,7 +23,8 @@ public class FrameView implements View {
 
     private void createFrame() {
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.setMinimumSize(new Dimension(400, 300));
+        frame.setMinimumSize(new Dimension(400, 200));
+        frame.setLocation(600, 300);
         frame.setVisible(true);
     }
 
@@ -35,7 +36,7 @@ public class FrameView implements View {
         c1.gridwidth = 2;
         c1.gridheight = 1;
         c1.anchor = GridBagConstraints.ABOVE_BASELINE_LEADING;
-        c1.insets = new Insets(-120, 5, -40, 5);
+        c1.insets = new Insets(-90, 5, -40, 5);
         panel.add(label1, c1);
 
         GridBagConstraints c2 = new GridBagConstraints();
@@ -46,7 +47,7 @@ public class FrameView implements View {
         c2.anchor = GridBagConstraints.ABOVE_BASELINE_LEADING;
         c2.fill = GridBagConstraints.HORIZONTAL;
         c2.weightx = 1.0;
-        c2.insets = new Insets(-170, 5, -40, 5);
+        c2.insets = new Insets(-110, 5, -40, 5);
         panel.add(textField, c2);
 
         GridBagConstraints c3 = new GridBagConstraints();
@@ -56,7 +57,7 @@ public class FrameView implements View {
         c3.gridheight = 1;
         c3.anchor = GridBagConstraints.ABOVE_BASELINE_LEADING;
         c3.weightx = 1.0;
-        c3.insets = new Insets(-110, 5, -40, 5);
+        c3.insets = new Insets(-50, 5, -40, 5);
         panel.add(button, c3);
 
         GridBagConstraints c4 = new GridBagConstraints();
@@ -70,7 +71,7 @@ public class FrameView implements View {
         c4.gridheight = 1;
         c4.anchor = GridBagConstraints.ABOVE_BASELINE_LEADING;
         c4.weightx = 1.0;
-        c4.insets = new Insets(150, 5, -40, 5);
+        c4.insets = new Insets(90, 5, -40, 5);
         comboBox.setModel(new DefaultComboBoxModel<>(list.toArray()));
         panel.add(comboBox, c4);
 
@@ -81,7 +82,7 @@ public class FrameView implements View {
         c5.gridheight = 1;
         c5.anchor = GridBagConstraints.ABOVE_BASELINE_LEADING;
         c5.weightx = 1.0;
-        c5.insets = new Insets(-30, 5, -40, 5);
+        c5.insets = new Insets(10, 5, -40, 5);
         panel.add(label2, c5);
 
         frame.setContentPane(panel);
