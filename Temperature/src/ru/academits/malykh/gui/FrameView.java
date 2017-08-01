@@ -132,10 +132,10 @@ public class FrameView implements View {
         });
     }
 
-    /*@Override
+    @Override
     public void onTemperatureConverted(double convertedTemperature) {
         label2.setText(Double.toString(convertedTemperature));
-    } */
+    }
 
     @Override
     public void addViewListener(ViewListener listener) {
