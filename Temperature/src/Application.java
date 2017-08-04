@@ -1,14 +1,22 @@
+import ru.academits.malykh.common.TemperatureConverter;
 import ru.academits.malykh.common.View;
 import ru.academits.malykh.controller.Controller;
 import ru.academits.malykh.gui.FrameView;
+import ru.academits.malykh.model.*;
 
 public class Application {
     public static void main(String[] args) {
         View view = new FrameView();
 
-        Controller controller = new Controller(view);
-
+        TemperatureConverter converter = new CelsiusToKelvinConverter();
+        view.addTemperatureConverter(converter);
+        Controller controller = new Controller(converter, view);
         view.addViewListener(controller);
+
+        TemperatureConverter converter1 = new FahrenheitToCelsiusConverter();
+        view.addTemperatureConverter(converter1);
+        Controller controller1 = new Controller(converter1, view);
+        view.addViewListener(controller1);
 
         view.startApplication();
     }

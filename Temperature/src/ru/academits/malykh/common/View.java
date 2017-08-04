@@ -8,4 +8,6 @@ public interface View extends AutoCloseable {
     void addViewListener(ViewListener listener);
 
     void removeViewListener(ViewListener viewListener);
+
+    void addTemperatureConverter(TemperatureConverter converter);
 }
