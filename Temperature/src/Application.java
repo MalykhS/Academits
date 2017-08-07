@@ -8,13 +8,14 @@ public class Application {
     public static void main(String[] args) {
         View view = new FrameView();
 
-        TemperatureConverter converter = new CelsiusToKelvinConverter();
-        view.addTemperatureConverter(converter);
+        TemperatureConverter converter = new Kelvin();
+        view.addTemperatureConverter(converter, "FromCelsiusToKelvin");
+        view.addTemperatureConverter(converter, "FromKelvinToCelsius");
         Controller controller = new Controller(converter, view);
         view.addViewListener(controller);
 
-        TemperatureConverter converter1 = new FahrenheitToCelsiusConverter();
-        view.addTemperatureConverter(converter1);
+        TemperatureConverter converter1 = new Fahrenheit();
+        view.addTemperatureConverter(converter1, "FromCelsiusToFahrenheit");
         Controller controller1 = new Controller(converter1, view);
         view.addViewListener(controller1);
 

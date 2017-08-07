@@ -7,9 +7,7 @@ import ru.academits.malykh.model.*;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Objects;
+import java.util.*;
 
 public class FrameView implements View {
     private final ArrayList<ViewListener> listeners = new ArrayList<>();
@@ -101,7 +99,14 @@ public class FrameView implements View {
                     listener.convertTemperature(temperature);
                 }
 
-                if (Objects.equals(comboBox.getSelectedItem(), CelsiusToKelvinConverter.class.getSimpleName())) {
+                if (comboBox.getSelectedItem() == "FromCelsiusToKelvin") {
+                    resultLabel.setText(String.valueOf(new Kelvin("FromCelsiusToKelvin").convert(temperature)));
+                } else if (comboBox.getSelectedItem() == "FromKelvinToCelsius") {
+                    resultLabel.setText(String.valueOf(new Kelvin("FromKelvinToCelsius").convert(temperature)));
+                } else if (comboBox.getSelectedItem() == "FromCelsiusToFahrenheit") {
+                    resultLabel.setText(String.valueOf(new Fahrenheit("FromCelsiusToFahrenheit").convert(temperature)));
+                }
+                /*if (Objects.equals(comboBox.getSelectedItem(), CelsiusToKelvinConverter.class.getSimpleName())) {
                     resultLabel.setText(String.valueOf(new CelsiusToKelvinConverter().convert(temperature)));
                 } else if (Objects.equals(comboBox.getSelectedItem(), CelsiusToFahrenheitConverter.class.getSimpleName())) {
                     resultLabel.setText(String.valueOf(new CelsiusToFahrenheitConverter().convert(temperature)));
@@ -113,7 +118,7 @@ public class FrameView implements View {
                     resultLabel.setText(String.valueOf(new FahrenheitToCelsiusConverter().convert(temperature)));
                 } else if (Objects.equals(comboBox.getSelectedItem(), FahrenheitToKelvinConverter.class.getSimpleName())) {
                     resultLabel.setText(String.valueOf(new FahrenheitToKelvinConverter().convert(temperature)));
-                }
+                } */
 
             } catch (NumberFormatException ex) {
                 resultLabel.setForeground(Color.RED);
@@ -149,11 +154,21 @@ public class FrameView implements View {
     }
 
     @Override
-    public void addTemperatureConverter(TemperatureConverter converter) {
-        for (TemperatureConverter c : list) {
-            if (c.getClass() == converter.getClass()) {
-                comboBox.addItem(converter.getClass().getSimpleName());
-            }
+    public void addTemperatureConverter(TemperatureConverter conversation, String key) {
+
+        HashMap<String, String> map = new HashMap<>();
+        map.put("FromCelsiusToKelvin", Kelvin.class.getSimpleName());
+        map.put("FromKelvinToCelsius", Kelvin.class.getSimpleName());
+        map.put("FromCelsiusToFahrenheit", Fahrenheit.class.getSimpleName());
+
+        Optional<String> result = map.entrySet()
+                .stream()
+                .filter(entry -> conversation.getClass().getSimpleName().equals(entry.getValue()))
+                .map(Map.Entry::getKey)
+                .findFirst();
+
+        if (result.isPresent()) {
+            comboBox.addItem(key);
         }
     }
 
