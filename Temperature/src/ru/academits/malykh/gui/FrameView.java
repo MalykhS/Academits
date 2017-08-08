@@ -11,14 +11,7 @@ import java.util.*;
 
 public class FrameView implements View {
     private final ArrayList<ViewListener> listeners = new ArrayList<>();
-    private final ArrayList<TemperatureConverter> list = new ArrayList<>(Arrays.asList(
-            new CelsiusToKelvinConverter(),
-            new CelsiusToFahrenheitConverter(),
-            new KelvinToCelsiusConverter(),
-            new KelvinToFahrenheitConverter(),
-            new FahrenheitToCelsiusConverter(),
-            new FahrenheitToKelvinConverter()));
-
+    private HashMap<String, String> map = new HashMap<>();
     private final JFrame frame = new JFrame("Temperature converter");
     private final JButton button = new JButton("Convert");
     private final JTextField textField = new JTextField(10);
@@ -100,25 +93,18 @@ public class FrameView implements View {
                 }
 
                 if (comboBox.getSelectedItem() == "FromCelsiusToKelvin") {
-                    resultLabel.setText(String.valueOf(new Kelvin("FromCelsiusToKelvin").convert(temperature)));
+                    resultLabel.setText(String.valueOf(new ConvertToKelvin("FromCelsiusToKelvin").convert(temperature)));
                 } else if (comboBox.getSelectedItem() == "FromKelvinToCelsius") {
-                    resultLabel.setText(String.valueOf(new Kelvin("FromKelvinToCelsius").convert(temperature)));
+                    resultLabel.setText(String.valueOf(new ConvertToKelvin("FromKelvinToCelsius").convert(temperature)));
                 } else if (comboBox.getSelectedItem() == "FromCelsiusToFahrenheit") {
-                    resultLabel.setText(String.valueOf(new Fahrenheit("FromCelsiusToFahrenheit").convert(temperature)));
+                    resultLabel.setText(String.valueOf(new ConvertToFahrenheit("FromCelsiusToFahrenheit").convert(temperature)));
+                } else if (comboBox.getSelectedItem() == "FromFahrenheitToCelsius") {
+                    resultLabel.setText(String.valueOf(new ConvertToFahrenheit("FromFahrenheitToCelsius").convert(temperature)));
+                } else if (comboBox.getSelectedItem() == "FromKelvinToFahrenheit") {
+                    resultLabel.setText(String.valueOf(new ConvertFromKelvinToFahrenheit("FromKelvinToFahrenheit").convert(temperature)));
+                } else if (comboBox.getSelectedItem() == "FromFahrenheitToKelvin") {
+                    resultLabel.setText(String.valueOf(new ConvertFromKelvinToFahrenheit("FromFahrenheitToKelvin").convert(temperature)));
                 }
-                /*if (Objects.equals(comboBox.getSelectedItem(), CelsiusToKelvinConverter.class.getSimpleName())) {
-                    resultLabel.setText(String.valueOf(new CelsiusToKelvinConverter().convert(temperature)));
-                } else if (Objects.equals(comboBox.getSelectedItem(), CelsiusToFahrenheitConverter.class.getSimpleName())) {
-                    resultLabel.setText(String.valueOf(new CelsiusToFahrenheitConverter().convert(temperature)));
-                } else if (Objects.equals(comboBox.getSelectedItem(), KelvinToCelsiusConverter.class.getSimpleName())) {
-                    resultLabel.setText(String.valueOf(new KelvinToCelsiusConverter().convert(temperature)));
-                } else if (Objects.equals(comboBox.getSelectedItem(), KelvinToFahrenheitConverter.class.getSimpleName())) {
-                    resultLabel.setText(String.valueOf(new KelvinToFahrenheitConverter().convert(temperature)));
-                } else if (Objects.equals(comboBox.getSelectedItem(), FahrenheitToCelsiusConverter.class.getSimpleName())) {
-                    resultLabel.setText(String.valueOf(new FahrenheitToCelsiusConverter().convert(temperature)));
-                } else if (Objects.equals(comboBox.getSelectedItem(), FahrenheitToKelvinConverter.class.getSimpleName())) {
-                    resultLabel.setText(String.valueOf(new FahrenheitToKelvinConverter().convert(temperature)));
-                } */
 
             } catch (NumberFormatException ex) {
                 resultLabel.setForeground(Color.RED);
@@ -156,10 +142,12 @@ public class FrameView implements View {
     @Override
     public void addTemperatureConverter(TemperatureConverter conversation, String key) {
 
-        HashMap<String, String> map = new HashMap<>();
-        map.put("FromCelsiusToKelvin", Kelvin.class.getSimpleName());
-        map.put("FromKelvinToCelsius", Kelvin.class.getSimpleName());
-        map.put("FromCelsiusToFahrenheit", Fahrenheit.class.getSimpleName());
+        map.put("FromCelsiusToKelvin", ConvertToKelvin.class.getSimpleName());
+        map.put("FromKelvinToCelsius", ConvertToKelvin.class.getSimpleName());
+        map.put("FromCelsiusToFahrenheit", ConvertToFahrenheit.class.getSimpleName());
+        map.put("FromFahrenheitToCelsius", ConvertToFahrenheit.class.getSimpleName());
+        map.put("FromKelvinToFahrenheit", ConvertFromKelvinToFahrenheit.class.getSimpleName());
+        map.put("FromFahrenheitToKelvin", ConvertFromKelvinToFahrenheit.class.getSimpleName());
 
         Optional<String> result = map.entrySet()
                 .stream()
@@ -169,6 +157,11 @@ public class FrameView implements View {
 
         if (result.isPresent()) {
             comboBox.addItem(key);
+        }
+
+        if (!map.keySet().contains(key)) {
+            JOptionPane.showMessageDialog(null, "The Program has an invalid key! Check the keys!",
+                    "Warning!", JOptionPane.WARNING_MESSAGE);
         }
     }
 

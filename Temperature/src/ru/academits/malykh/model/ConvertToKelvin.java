@@ -4,22 +4,23 @@ import ru.academits.malykh.common.TemperatureConverter;
 
 import java.util.Objects;
 
-public class Kelvin implements TemperatureConverter {
+public class ConvertToKelvin implements TemperatureConverter {
     private String key;
 
-    public Kelvin() {}
+    public ConvertToKelvin() {
+    }
 
-    public Kelvin(String key) {
+    public ConvertToKelvin(String key) {
         this.key = key;
     }
+
     @Override
     public double convert(double degree) {
         if (Objects.equals(key, "FromCelsiusToKelvin")) {
             return degree + 273;
         } else if (Objects.equals(key, "FromKelvinToCelsius")) {
             return degree - 273;
-        } else {
-            return 0;
         }
+        return 0;
     }
 }
