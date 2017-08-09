@@ -15,10 +15,16 @@ public class ConvertToKelvin implements TemperatureConverter {
     }
 
     @Override
-    public double convert(double degree) {
+    public double convertToCelsius(double degree) {
         if (Objects.equals(key, "FromCelsiusToKelvin")) {
             return degree + 273;
-        } else if (Objects.equals(key, "FromKelvinToCelsius")) {
+        }
+        return 0;
+    }
+
+    @Override
+    public double convertFromCelsius(double degree) {
+        if (Objects.equals(key, "FromKelvinToCelsius")) {
             return degree - 273;
         }
         return 0;

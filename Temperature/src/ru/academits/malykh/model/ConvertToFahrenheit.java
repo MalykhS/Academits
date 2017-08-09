@@ -15,13 +15,18 @@ public class ConvertToFahrenheit implements TemperatureConverter {
     }
 
     @Override
-    public double convert(double degree) {
+    public double convertToCelsius(double degree) {
         if (Objects.equals(key, "FromCelsiusToFahrenheit")) {
-            return degree * 9 / 5 + 32;
-        } else if (Objects.equals(key, "FromFahrenheitToCelsius")) {
-            return (degree - 32) * 5 / 9;
-        } else {
-            return 0;
+            return degree * 1.8 + 32;
         }
+        return 0;
+    }
+
+    @Override
+    public double convertFromCelsius(double degree) {
+        if (Objects.equals(key, "FromFahrenheitToCelsius")) {
+            return (degree - 32) * 5/9;
+        }
+        return 0;
     }
 }

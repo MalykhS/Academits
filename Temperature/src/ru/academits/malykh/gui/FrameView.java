@@ -93,17 +93,26 @@ public class FrameView implements View {
                 }
 
                 if (comboBox.getSelectedItem() == "FromCelsiusToKelvin") {
-                    resultLabel.setText(String.valueOf(new ConvertToKelvin("FromCelsiusToKelvin").convert(temperature)));
+                    resultLabel.setText(String.valueOf(new ConvertToKelvin("FromCelsiusToKelvin").convertToCelsius(temperature)));
+
                 } else if (comboBox.getSelectedItem() == "FromKelvinToCelsius") {
-                    resultLabel.setText(String.valueOf(new ConvertToKelvin("FromKelvinToCelsius").convert(temperature)));
+                    resultLabel.setText(String.valueOf(new ConvertToKelvin("FromKelvinToCelsius").convertFromCelsius(temperature)));
+
                 } else if (comboBox.getSelectedItem() == "FromCelsiusToFahrenheit") {
-                    resultLabel.setText(String.valueOf(new ConvertToFahrenheit("FromCelsiusToFahrenheit").convert(temperature)));
+                    resultLabel.setText(String.valueOf(new ConvertToFahrenheit("FromCelsiusToFahrenheit").convertToCelsius(temperature)));
+
                 } else if (comboBox.getSelectedItem() == "FromFahrenheitToCelsius") {
-                    resultLabel.setText(String.valueOf(new ConvertToFahrenheit("FromFahrenheitToCelsius").convert(temperature)));
+                    resultLabel.setText(String.valueOf(new ConvertToFahrenheit("FromFahrenheitToCelsius").convertFromCelsius(temperature)));
+
                 } else if (comboBox.getSelectedItem() == "FromKelvinToFahrenheit") {
-                    resultLabel.setText(String.valueOf(new ConvertFromKelvinToFahrenheit("FromKelvinToFahrenheit").convert(temperature)));
+
+                    resultLabel.setText(String.valueOf(new ConvertToFahrenheit("FromCelsiusToFahrenheit").convertToCelsius(
+                            new ConvertToKelvin("FromKelvinToCelsius").convertFromCelsius(temperature))));
+
                 } else if (comboBox.getSelectedItem() == "FromFahrenheitToKelvin") {
-                    resultLabel.setText(String.valueOf(new ConvertFromKelvinToFahrenheit("FromFahrenheitToKelvin").convert(temperature)));
+
+                    resultLabel.setText(String.valueOf(new ConvertToKelvin("FromCelsiusToKelvin").convertToCelsius(
+                            new ConvertToFahrenheit("FromFahrenheitToCelsius").convertFromCelsius(temperature))));
                 }
 
             } catch (NumberFormatException ex) {
@@ -140,18 +149,19 @@ public class FrameView implements View {
     }
 
     @Override
-    public void addTemperatureConverter(TemperatureConverter conversation, String key) {
+    public void addTemperatureConverter(TemperatureConverter converter, String key) {
 
         map.put("FromCelsiusToKelvin", ConvertToKelvin.class.getSimpleName());
         map.put("FromKelvinToCelsius", ConvertToKelvin.class.getSimpleName());
         map.put("FromCelsiusToFahrenheit", ConvertToFahrenheit.class.getSimpleName());
         map.put("FromFahrenheitToCelsius", ConvertToFahrenheit.class.getSimpleName());
-        map.put("FromKelvinToFahrenheit", ConvertFromKelvinToFahrenheit.class.getSimpleName());
-        map.put("FromFahrenheitToKelvin", ConvertFromKelvinToFahrenheit.class.getSimpleName());
+        map.put("FromKelvinToFahrenheit", ConvertToKelvin.class.getSimpleName());
+        map.put("FromFahrenheitToKelvin", ConvertToKelvin.class.getSimpleName());
+
 
         Optional<String> result = map.entrySet()
                 .stream()
-                .filter(entry -> conversation.getClass().getSimpleName().equals(entry.getValue()))
+                .filter(entry -> converter.getClass().getSimpleName().equals(entry.getValue()))
                 .map(Map.Entry::getKey)
                 .findFirst();
 

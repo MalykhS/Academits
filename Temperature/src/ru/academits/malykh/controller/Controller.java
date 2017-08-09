@@ -15,6 +15,6 @@ public class Controller implements ViewListener {
 
     @Override
     public void convertTemperature(double degree) {
-        view.onTemperatureConverted(temperatureConverter.convert(degree));
+        view.onTemperatureConverted(temperatureConverter.convertToCelsius(degree));
     }
 }

@@ -20,7 +20,7 @@ public class Application {
         Controller controller1 = new Controller(converter1, view);
         view.addViewListener(controller1);
 
-        TemperatureConverter converter2 = new ConvertFromKelvinToFahrenheit();
+        TemperatureConverter converter2 = new ConvertToKelvin();
         view.addTemperatureConverter(converter2, "FromKelvinToFahrenheit");
         view.addTemperatureConverter(converter2, "FromFahrenheitToKelvin");
         Controller controller2 = new Controller(converter2, view);

@@ -1,5 +1,6 @@
 package ru.academits.malykh.common;
 
 public interface TemperatureConverter {
-    double convert(double degree);
+    double convertToCelsius(double degree);
+    double convertFromCelsius(double degree);
 }
