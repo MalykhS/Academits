@@ -7,18 +7,20 @@ public class Main {
     public static void main(String[] args) {
         SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
         SinglyLinkedList<Integer> list1 = new SinglyLinkedList<>();
+        // SinglyLinkedList<Integer> list2 = new SinglyLinkedList<>();
 
-        list.addFirst(100);
-        list.addFirst(8);
-        list.addFirst(2);
+        list.addFirst(11);
+        list.addFirst(7);
         list.addFirst(null);
-        list.addFirst(10);
+        list.addFirst(1);
         list.addFirst(0);
 
-        list.copyList().printList();
+        list.removeNodeByValue(1);
 
-        System.out.println();
+        //list.copyList().printList();
+
 
         list.printList();
+
     }
 }

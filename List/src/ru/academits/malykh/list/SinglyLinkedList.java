@@ -69,8 +69,7 @@ public class SinglyLinkedList<T> {
         } else {
             ListElement<T> temp = getNode(index - 1);
             oldValue = temp.getNext().getData();
-            temp.setNext(temp.getNext().getNext());
-            size--;
+            removeAfterNode(temp);
         }
 
         return oldValue;
@@ -83,49 +82,57 @@ public class SinglyLinkedList<T> {
 
     public void addElement(int index, T element) {
 
-        checkListItemIsPresence(index);
-        getNode(index);
         if (index == 0) {
             addFirst(element);
         } else {
             ListElement<T> temp = getNode(index - 1);
-            temp.setNext(new ListElement<>(element, temp.getNext()));
-            size++;
+            addAfterNode(temp, element);
         }
     }
 
     public boolean removeNodeByValue(T value) {
         checkListIsEmpty();
 
+        if (value.equals(head.getData())) {
+            getDeletedFirstElement();
+            return true;
+        }
+
+
         for (ListElement<T> p = head, prev = null; p != null; prev = p, p = p.getNext()) {
-            if (p.getData() == null) {
+
+            if (value == null) {
+                prev.setNext(prev.getNext().getNext());
+            }
+
+
+           /* if (p.getData() == null) {
                 continue;
             }
-            if (value.equals(head.getData())) {
-                getDeletedFirstElement();
-                return true;
+
+            int count = 0;
+
+            if (value == null) {
+                deleteElement(count);
             }
+
             if (p.getData().equals(value)) {
                 assert prev != null;
                 prev.setNext(prev.getNext().getNext());
                 size--;
                 return true;
             }
+            count++; */
         }
-
         return false;
     }
 
     public void removeAfterNode(ListElement<T> p) {
-        try {
-            if (p.getNext() == null) {
-                throw new ArrayIndexOutOfBoundsException();
-            } else {
-                p.setNext(p.getNext().getNext());
-                size--;
-            }
-        } catch (ArrayIndexOutOfBoundsException e) {
-            System.out.println("This is the last element in the list!");
+        if (p.getNext() == null) {
+            throw new ArrayIndexOutOfBoundsException("This is the last element in the list!");
+        } else {
+            p.setNext(p.getNext().getNext());
+            size--;
         }
     }
 
@@ -152,26 +159,34 @@ public class SinglyLinkedList<T> {
             head = p;
             p = temp;
         }
+
     }
 
-    public void addLast(T element) {
-        if (head == null) {
-            addFirst(element);
-            return;
-        }
+    public void addLast(T value) {
+        ListElement<T> p = head;
+        ListElement<T> t = new ListElement<>();
 
-        addAfterNode(getNode(getSize() - 1), element);
+        if (head == null) {
+            addFirst(value);
+        } else {
+            t.setData(value);
+            t.setNext(null);
+            while (p.getNext() != null) {
+                p = p.getNext();
+            }
+            p.setNext(t);
+        }
     }
 
     public SinglyLinkedList<T> copyList() {
         SinglyLinkedList<T> list1 = new SinglyLinkedList<>();
-        ListElement<T> p1;
 
         for (ListElement<T> p = head; p != null; p = p.getNext()) {
-            p1 = new ListElement<>(p.getData());
-            list1.addLast(p1.getData());
+            list1.addLast(p.getData());
         }
+
 
         return list1;
     }
 }
+
