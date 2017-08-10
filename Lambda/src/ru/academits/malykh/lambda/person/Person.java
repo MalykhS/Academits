@@ -1,3 +1,5 @@
+package ru.academits.malykh.lambda.person;
+
 public class Person {
     private String name;
     private int age;
@@ -6,7 +8,7 @@ public class Person {
         return name;
     }
 
-    int getAge() {
+    public int getAge() {
         return age;
     }
 
