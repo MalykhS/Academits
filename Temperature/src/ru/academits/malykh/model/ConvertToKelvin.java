@@ -2,31 +2,35 @@ package ru.academits.malykh.model;
 
 import ru.academits.malykh.common.TemperatureConverter;
 
-import java.util.Objects;
-
 public class ConvertToKelvin implements TemperatureConverter {
-    private String key;
+    private String name;
 
-    public ConvertToKelvin() {
+    public String getName() {
+        return name;
     }
 
-    public ConvertToKelvin(String key) {
-        this.key = key;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public ConvertToKelvin(String name) {
+
+        this.name = name;
     }
 
     @Override
     public double convertToCelsius(double degree) {
-        if (Objects.equals(key, "FromCelsiusToKelvin")) {
-            return degree + 273;
-        }
-        return 0;
+        return degree + 273;
     }
 
     @Override
     public double convertFromCelsius(double degree) {
-        if (Objects.equals(key, "FromKelvinToCelsius")) {
-            return degree - 273;
-        }
-        return 0;
+        return degree - 273;
+    }
+
+    @Override
+
+    public String toString() {
+        return name;
     }
 }

@@ -2,31 +2,34 @@ package ru.academits.malykh.model;
 
 import ru.academits.malykh.common.TemperatureConverter;
 
-import java.util.Objects;
-
 public class ConvertToFahrenheit implements TemperatureConverter {
-    private String key;
+    private String name;
 
-    public ConvertToFahrenheit() {
+    public String getName() {
+        return name;
     }
 
-    public ConvertToFahrenheit(String key) {
-        this.key = key;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public ConvertToFahrenheit(String name) {
+        this.name = name;
     }
 
     @Override
     public double convertToCelsius(double degree) {
-        if (Objects.equals(key, "FromCelsiusToFahrenheit")) {
-            return degree * 1.8 + 32;
-        }
-        return 0;
+        return degree * 1.8 + 32;
     }
 
     @Override
     public double convertFromCelsius(double degree) {
-        if (Objects.equals(key, "FromFahrenheitToCelsius")) {
-            return (degree - 32) * 5/9;
-        }
-        return 0;
+        return (degree - 32) * 5 / 9;
+    }
+
+    @Override
+
+    public String toString() {
+        return name;
     }
 }
