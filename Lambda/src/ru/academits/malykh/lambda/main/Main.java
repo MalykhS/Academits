@@ -23,8 +23,7 @@ public class Main {
         System.out.println();
 
         List<Person> filtered = list.stream().filter(p -> p.getAge() < 18).collect(Collectors.toList());
-        double sum = filtered.stream().mapToDouble(Person::getAge).average().getAsDouble();
-        System.out.println(sum);
+        filtered.stream().mapToDouble(Person::getAge).average().ifPresent(System.out::println);
         System.out.println();
 
         Map<String, Double> newList = list.stream().collect(Collectors.groupingBy(Person::getName,
