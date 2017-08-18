@@ -8,7 +8,7 @@ public class Controller implements ViewListener {
     private final TemperatureConverter temperatureConverter;
     private final View view;
 
-    public Controller(TemperatureConverter converter ,View view) {
+    public Controller(TemperatureConverter converter, View view) {
         this.temperatureConverter = converter;
         this.view = view;
     }

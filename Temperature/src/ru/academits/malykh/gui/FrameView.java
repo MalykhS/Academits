@@ -3,20 +3,19 @@ package ru.academits.malykh.gui;
 import ru.academits.malykh.common.TemperatureConverter;
 import ru.academits.malykh.common.View;
 import ru.academits.malykh.common.ViewListener;
-
 import javax.swing.*;
 import java.awt.*;
 import java.util.*;
 
 public class FrameView implements View {
     private final ArrayList<ViewListener> listeners = new ArrayList<>();
-    private ArrayList<TemperatureConverter> list = new ArrayList<>();
     private final JFrame frame = new JFrame("Temperature converter");
     private final JButton convertButton = new JButton("Convert");
     private final JTextField entryTextField = new JTextField(10);
     private final JLabel entryField = new JLabel("Enter temperature: ");
     private final JLabel resultLabel = new JLabel();
-    private final JComboBox<String> comboBox = new JComboBox<>();
+    private final JComboBox<TemperatureConverter> comboBox1 = new JComboBox<>();
+    private final JComboBox<TemperatureConverter> comboBox2 = new JComboBox<>();
 
     private void createFrame() {
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -66,17 +65,28 @@ public class FrameView implements View {
         c4.anchor = GridBagConstraints.ABOVE_BASELINE_LEADING;
         c4.weightx = 1.0;
         c4.insets = new Insets(90, 5, -40, 5);
-        panel.add(comboBox, c4);
+        panel.add(comboBox1, c4);
 
         GridBagConstraints c5 = new GridBagConstraints();
+
         c5.gridx = 0;
         c5.gridy = 1;
         c5.gridwidth = 2;
         c5.gridheight = 1;
         c5.anchor = GridBagConstraints.ABOVE_BASELINE_LEADING;
         c5.weightx = 1.0;
-        c5.insets = new Insets(10, 5, -40, 5);
-        panel.add(resultLabel, c5);
+        c5.insets = new Insets(90, 170, -40, 5);
+        panel.add(comboBox2, c5);
+
+        GridBagConstraints c6 = new GridBagConstraints();
+        c6.gridx = 0;
+        c6.gridy = 1;
+        c6.gridwidth = 2;
+        c6.gridheight = 1;
+        c6.anchor = GridBagConstraints.ABOVE_BASELINE_LEADING;
+        c6.weightx = 1.0;
+        c6.insets = new Insets(10, 5, -40, 5);
+        panel.add(resultLabel, c6);
 
         frame.setContentPane(panel);
     }
@@ -91,16 +101,11 @@ public class FrameView implements View {
                     listener.convertTemperature(temperature);
                 }
 
-                for (TemperatureConverter t : list) {
-                    if (comboBox.getSelectedItem() == t.toString()) {
-                        if (t.toString().contains("To")) {
-                            resultLabel.setText(String.valueOf(t.convertToCelsius(temperature)));
-                        }
-                        if (t.toString().contains("From")) {
-                            resultLabel.setText(String.valueOf(t.convertFromCelsius(temperature)));
-                        }
-                    }
-                }
+                TemperatureConverter converter1 = (TemperatureConverter) comboBox1.getSelectedItem();
+                TemperatureConverter converter2 = (TemperatureConverter) comboBox2.getSelectedItem();
+                assert converter1 != null;
+                assert converter2 != null;
+                resultLabel.setText(String.valueOf(converter2.convertFromCelsius(converter1.convertToCelsius(temperature))));
 
             } catch (NumberFormatException ex) {
                 resultLabel.setForeground(Color.RED);
@@ -137,9 +142,8 @@ public class FrameView implements View {
 
     @Override
     public void addTemperatureConverter(TemperatureConverter converter) {
-
-        list.add(converter);
-        comboBox.addItem(converter.toString());
+        comboBox1.addItem(converter);
+        comboBox2.addItem(converter);
     }
 
     @Override
