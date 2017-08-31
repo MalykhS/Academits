@@ -2,41 +2,32 @@ package ru.academits.malykh.gui;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Random;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-class Cell {
-    private Cell[][] cells;
-    private JFrame playingField = new JFrame();
+public class Cell implements ActionListener {
+    private final JButton button = new JButton();
+    private int id;
 
-    Cell(Cell[][] cells) {
-        this.cells = cells;
+    public Cell() {
+        button.addActionListener(this);
+        button.setPreferredSize(new Dimension(25, 25));
     }
 
-    void createPlayingField() {
-        playingField.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        playingField.setResizable(true);
-        playingField.setLocationRelativeTo(null);
-        playingField.setVisible(true);
+    public JButton getButton() {
+        return button;
     }
 
-    void createContentPlayingField() {
-        int length = cells.length;
+    public int getId() {
+        return id;
+    }
 
-        Random random = new Random();
+    public void setId(int id) {
+        this.id = id;
+    }
 
-        JPanel panel = new JPanel(new GridLayout(length, length));
+    @Override
+    public void actionPerformed(ActionEvent e) {
 
-        for (int i = 0; i < cells.length; i++) {
-            for (int j = 0; j < cells[i].length; j++) {
-                JButton b = new JButton();
-                b.setPreferredSize(new Dimension(25, 25));
-                panel.add(b);
-            }
-
-            playingField.setContentPane(panel);
-            playingField.pack();
-        }
     }
 }
-
-
