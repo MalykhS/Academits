@@ -13,4 +13,5 @@ public class HardLevel implements View {
     public void createContent() {
         field.createContentPlayingField();
     }
+
 }

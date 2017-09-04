@@ -13,4 +13,5 @@ public class MediumLevel implements View {
     public void createContent() {
         field.createContentPlayingField();
     }
+
 }

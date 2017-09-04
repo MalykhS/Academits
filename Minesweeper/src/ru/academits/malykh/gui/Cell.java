@@ -1,33 +1,20 @@
 package ru.academits.malykh.gui;
 
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-public class Cell implements ActionListener {
-    private final JButton button = new JButton();
-    private int id;
+public class Cell {
+    private JButton cell;
 
-    public Cell() {
-        button.addActionListener(this);
-        button.setPreferredSize(new Dimension(25, 25));
+    public Cell(JButton cell) {
+        this.cell = cell;
     }
 
-    public JButton getButton() {
-        return button;
+    public JButton getCell() {
+
+        return cell;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-
+    public void setCell(JButton cell) {
+        this.cell = cell;
     }
 }

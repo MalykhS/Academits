@@ -2,6 +2,7 @@ package ru.academits.malykh.gui;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Random;
 
 class Field {
     private Cell[][] cells;
@@ -20,6 +21,7 @@ class Field {
 
     void createContentPlayingField() {
         int length = cells.length;
+        Random random = new Random();
 
         JPanel panel = new JPanel(new GridLayout(length, length));
 
@@ -29,9 +31,21 @@ class Field {
                 b.setPreferredSize(new Dimension(25, 25));
                 panel.add(b);
             }
+        }
 
-            playingField.setContentPane(panel);
-            playingField.pack();
+        playingField.setContentPane(panel);
+        playingField.pack();
+    }
+
+    public void createMines() {
+        Random random = new Random();
+        for (int i = 0; i < cells.length; i++) {
+            int x = random.nextInt(cells.length);
+            int y = random.nextInt(cells[0].length);
+
+            /*JButton b = new JButton();
+            b.setBackground(Color.RED);
+            cells[x][y].setCell(b); */
         }
     }
 }

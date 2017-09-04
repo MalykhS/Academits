@@ -14,5 +14,6 @@ public class Application {
        EasyLevel easyLevel = new EasyLevel();
        easyLevel.createFrame();
        easyLevel.createContent();
+       easyLevel.createMines();
     }
 }
