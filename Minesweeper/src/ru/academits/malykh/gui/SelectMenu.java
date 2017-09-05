@@ -184,16 +184,19 @@ public class SelectMenu implements View {
                 EasyLevel easyLevel = new EasyLevel();
                 easyLevel.createFrame();
                 easyLevel.createContent();
+                easyLevel.createMines();
             }
             if (mediumLevel.isSelected()) {
                 MediumLevel mediumLevel = new MediumLevel();
                 mediumLevel.createFrame();
                 mediumLevel.createContent();
+                mediumLevel.createMines();
             }
             if (hardLevel.isSelected()) {
                 HardLevel hardLevel = new HardLevel();
                 hardLevel.createFrame();
                 hardLevel.createContent();
+                hardLevel.createMines();
             }
         });
     }

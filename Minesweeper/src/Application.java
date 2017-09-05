@@ -6,14 +6,15 @@ public class Application {
         frameView.createFrame();
         frameView.createContent(); */
 
+
         /*SelectMenu selectMenu = new SelectMenu();
         selectMenu.createFrame();
         selectMenu.createContent(); */
 
 
-       EasyLevel easyLevel = new EasyLevel();
-       easyLevel.createFrame();
-       easyLevel.createContent();
-       easyLevel.createMines();
+        EasyLevel easyLevel = new EasyLevel();
+        easyLevel.createFrame();
+        easyLevel.createContent();
+        easyLevel.createMines();
     }
 }

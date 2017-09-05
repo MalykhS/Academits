@@ -4,7 +4,7 @@ import ru.academits.malykh.common.CreateMines;
 import ru.academits.malykh.common.View;
 
 public class EasyLevel implements View, CreateMines {
-    private final Field field = new Field(new Cell[9][9]);
+    private final Field field = new Field(new Cell[9][9], 10);
 
     public void createFrame() {
         field.createPlayingField();

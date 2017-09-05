@@ -4,6 +4,7 @@ import javax.swing.*;
 
 public class Cell {
     private JButton cell;
+    private boolean isMine = true;
 
     public Cell(JButton cell) {
         this.cell = cell;
@@ -16,5 +17,13 @@ public class Cell {
 
     public void setCell(JButton cell) {
         this.cell = cell;
+    }
+
+    public int isMine() {
+        if (isMine) {
+            return -1;
+        } else {
+            return 1;
+        }
     }
 }
