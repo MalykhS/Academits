@@ -29,8 +29,7 @@ public class SelectMenu implements View {
     private final JLabel mediumLevelMinesCount = new JLabel("40");
     private final JLabel hardLevelMinesCount = new JLabel("99");
 
-    @Override
-    public void createFrame() {
+    void createFrame() {
         frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         frame.setMinimumSize(new Dimension(450, 250));
         frame.setResizable(false);
@@ -38,8 +37,7 @@ public class SelectMenu implements View {
         frame.setVisible(true);
     }
 
-    @Override
-    public void createContent() {
+    void createContent() {
         JPanel panel = new JPanel(new GridBagLayout());
 
         GridBagConstraints c1 = new GridBagConstraints();
@@ -182,22 +180,23 @@ public class SelectMenu implements View {
         go.addActionListener(e -> {
             if (easyLevel.isSelected()) {
                 EasyLevel easyLevel = new EasyLevel();
-                easyLevel.createFrame();
-                easyLevel.createContent();
-                easyLevel.createMines();
+                easyLevel.init();
             }
             if (mediumLevel.isSelected()) {
                 MediumLevel mediumLevel = new MediumLevel();
-                mediumLevel.createFrame();
-                mediumLevel.createContent();
-                mediumLevel.createMines();
+                mediumLevel.init();
             }
             if (hardLevel.isSelected()) {
                 HardLevel hardLevel = new HardLevel();
-                hardLevel.createFrame();
-                hardLevel.createContent();
-                hardLevel.createMines();
+                hardLevel.init();
             }
         });
+    }
+
+    @Override
+    public void init() {
+        createFrame();
+        createContent();
+
     }
 }

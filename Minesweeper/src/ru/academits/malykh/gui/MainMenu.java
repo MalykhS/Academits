@@ -12,7 +12,7 @@ public class MainMenu implements View {
     private final JButton about = new JButton("About");
     private final JButton exit = new JButton("Exit");
 
-    public void createFrame() {
+    private void createFrame() {
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setMinimumSize(new Dimension(300, 300));
         frame.setResizable(false);
@@ -20,7 +20,7 @@ public class MainMenu implements View {
         frame.setVisible(true);
     }
 
-    public void createContent() {
+    private void createContent() {
         JPanel panel = new JPanel(new GridBagLayout());
 
         GridBagConstraints c1 = new GridBagConstraints();
@@ -68,5 +68,12 @@ public class MainMenu implements View {
         });
 
         exit.addActionListener(e -> System.exit(1));
+    }
+
+    @Override
+    public void init() {
+        createFrame();
+        createContent();
+
     }
 }
