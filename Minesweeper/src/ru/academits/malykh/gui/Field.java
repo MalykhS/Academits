@@ -74,22 +74,21 @@ class Field {
     }
 
     void setCellValues() {
-        IntStream.range(0, cells.length).forEach(x -> {
-            IntStream.range(0, cells.length).forEach(y -> {
-                if (!cells[x][y].isBomb()) {
-                    getSurroundingCells(x, y).stream().filter(Cell::isBomb).forEach(z -> cells[x][y].incrementValue());
-                }
-            });
-        });
+        IntStream.range(0, cells.length).forEach(x ->
+                IntStream.range(0, cells.length).forEach(y -> {
+                    if (!cells[x][y].isBomb()) {
+                        getSurroundingCells(x, y).stream().filter(Cell::isBomb).forEach(z -> cells[x][y].incrementValue());
+                    }
+                }));
     }
 
     void scanEmptyCells() {
         IntStream.range(0, cells.length).forEach(x ->
                 IntStream.range(0, cells.length).forEach(y -> {
-            if (cells[x][y].isClicked()) {
-                getSurroundingCells(x, y).stream().filter(Cell::isEmpty).forEach(Cell::checkCell);
-            }
-        }));
+                    if (cells[x][y].isClicked()) {
+                        getSurroundingCells(x, y).stream().filter(Cell::isEmpty).forEach(Cell::checkCell);
+                    }
+                }));
     }
 
     boolean isDone() {
