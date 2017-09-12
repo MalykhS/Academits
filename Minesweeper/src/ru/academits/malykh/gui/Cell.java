@@ -45,15 +45,15 @@ public class Cell {
         return !isClicked() && value == 0;
     }
 
-    boolean isMine() {
+    boolean isBomb() {
         return value == -1;
     }
 
     void checkCell() {
         reveal(null);
-        if (isMine() || field.isDone()) {
-            field.reveal(isMine() ? Color.RED : Color.GREEN);
-        } else if (value == 1) {
+        if (isBomb() || field.isDone()) {
+            field.reveal(isBomb() ? Color.RED : Color.GREEN);
+        } else if (value == 0) {
             field.scanEmptyCells();
         }
     }
@@ -79,5 +79,13 @@ public class Cell {
 
     boolean isClicked() {
         return clicked;
+    }
+
+    int setBomb() {
+        if (!isBomb()) {
+            setValue(-1);
+            return 1;
+        }
+        return 0;
     }
 }

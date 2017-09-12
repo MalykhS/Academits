@@ -10,5 +10,6 @@ public class MediumLevel implements View {
         field.createPlayingField();
         field.createContentPlayingField();
         field.createMines();
+        field.setCellValues();
     }
 }

@@ -10,5 +10,6 @@ public class HardLevel implements View {
         field.createPlayingField();
         field.createContentPlayingField();
         field.createMines();
+        field.setCellValues();
     }
 }

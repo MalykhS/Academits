@@ -2,8 +2,8 @@ package ru.academits.malykh.gui;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Random;
 import java.util.Set;
 import java.util.function.Consumer;
 import java.util.stream.IntStream;
@@ -20,26 +20,15 @@ class Field {
         this.bombCount = bombCount;
     }
 
-    public int getID() {
+    private int getID() {
         int id = cellId;
         cellId++;
         return id;
     }
 
-    public Cell getCell(int id) {
-        for (Cell[] a : cells) {
-            for (Cell b : a) {
-                if (b.getId() == id) {
-                    return b;
-                }
-            }
-        }
-        return null;
-    }
-
     void createPlayingField() {
         playingField.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        playingField.setResizable(true);
+        playingField.setResizable(false);
         playingField.setLocationRelativeTo(null);
         playingField.setVisible(true);
     }
@@ -61,24 +50,11 @@ class Field {
         playingField.pack();
     }
 
-    private ArrayList<Integer> generateMinesLocation(int bombCount) {
-        this.bombCount = bombCount;
-        ArrayList<Integer> list = new ArrayList<>();
-        int random;
-        for (int i = 0; i < bombCount; ) {
-            random = (int) (Math.random() * (cells.length * cells.length));
-            if (!list.contains(random)) {
-                list.add(random);
-                i++;
-            }
-        }
-        return list;
-    }
-
     void createMines() {
-        ArrayList<Integer> list = generateMinesLocation(bombCount);
-        for (int i : list) {
-            getCell(i).setValue(-1);
+        Random random = new Random();
+        int count = 0;
+        while (count != bombCount) {
+            count += cells[random.nextInt(cells.length)][random.nextInt(cells.length)].setBomb();
         }
     }
 
@@ -97,24 +73,23 @@ class Field {
         return result;
     }
 
-    public void setCellValues() {
+    void setCellValues() {
         IntStream.range(0, cells.length).forEach(x -> {
             IntStream.range(0, cells.length).forEach(y -> {
-                if (!cells[x][y].isMine()) {
-                    getSurroundingCells(x, y).stream().filter(Cell::isMine).forEach(z -> cells[x][y].incrementValue());
+                if (!cells[x][y].isBomb()) {
+                    getSurroundingCells(x, y).stream().filter(Cell::isBomb).forEach(z -> cells[x][y].incrementValue());
                 }
             });
         });
     }
 
     void scanEmptyCells() {
-        IntStream.range(0, cells.length).forEach(x -> {
-            IntStream.range(0, cells.length).forEach(y -> {
-                if (cells[x][y].isClicked()) {
-                    getSurroundingCells(x, y).stream().filter(Cell::isEmpty).forEach(Cell::checkCell);
-                }
-            });
-        });
+        IntStream.range(0, cells.length).forEach(x ->
+                IntStream.range(0, cells.length).forEach(y -> {
+            if (cells[x][y].isClicked()) {
+                getSurroundingCells(x, y).stream().filter(Cell::isEmpty).forEach(Cell::checkCell);
+            }
+        }));
     }
 
     boolean isDone() {
