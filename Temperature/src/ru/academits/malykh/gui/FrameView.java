@@ -3,21 +3,19 @@ package ru.academits.malykh.gui;
 import ru.academits.malykh.common.TemperatureConverter;
 import ru.academits.malykh.common.View;
 import ru.academits.malykh.common.ViewListener;
-import ru.academits.malykh.model.*;
-
 import javax.swing.*;
 import java.awt.*;
 import java.util.*;
 
 public class FrameView implements View {
     private final ArrayList<ViewListener> listeners = new ArrayList<>();
-    private HashMap<String, String> map = new HashMap<>();
     private final JFrame frame = new JFrame("Temperature converter");
-    private final JButton button = new JButton("Convert");
-    private final JTextField textField = new JTextField(10);
-    private final JLabel label1 = new JLabel("Enter temperature: ");
+    private final JButton convertButton = new JButton("Convert");
+    private final JTextField entryTextField = new JTextField(10);
+    private final JLabel entryField = new JLabel("Enter temperature: ");
     private final JLabel resultLabel = new JLabel();
-    private final JComboBox<String> comboBox = new JComboBox<>();
+    private final JComboBox<TemperatureConverter> comboBox1 = new JComboBox<>();
+    private final JComboBox<TemperatureConverter> comboBox2 = new JComboBox<>();
 
     private void createFrame() {
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -35,7 +33,7 @@ public class FrameView implements View {
         c1.gridheight = 1;
         c1.anchor = GridBagConstraints.ABOVE_BASELINE_LEADING;
         c1.insets = new Insets(-90, 5, -40, 5);
-        panel.add(label1, c1);
+        panel.add(entryField, c1);
 
         GridBagConstraints c2 = new GridBagConstraints();
         c2.gridx = 0;
@@ -46,7 +44,7 @@ public class FrameView implements View {
         c2.fill = GridBagConstraints.HORIZONTAL;
         c2.weightx = 1.0;
         c2.insets = new Insets(-110, 5, -40, 5);
-        panel.add(textField, c2);
+        panel.add(entryTextField, c2);
 
         GridBagConstraints c3 = new GridBagConstraints();
         c3.gridx = 0;
@@ -56,7 +54,7 @@ public class FrameView implements View {
         c3.anchor = GridBagConstraints.ABOVE_BASELINE_LEADING;
         c3.weightx = 1.0;
         c3.insets = new Insets(-50, 5, -40, 5);
-        panel.add(button, c3);
+        panel.add(convertButton, c3);
 
         GridBagConstraints c4 = new GridBagConstraints();
 
@@ -67,53 +65,47 @@ public class FrameView implements View {
         c4.anchor = GridBagConstraints.ABOVE_BASELINE_LEADING;
         c4.weightx = 1.0;
         c4.insets = new Insets(90, 5, -40, 5);
-        panel.add(comboBox, c4);
+        panel.add(comboBox1, c4);
 
         GridBagConstraints c5 = new GridBagConstraints();
+
         c5.gridx = 0;
         c5.gridy = 1;
         c5.gridwidth = 2;
         c5.gridheight = 1;
         c5.anchor = GridBagConstraints.ABOVE_BASELINE_LEADING;
         c5.weightx = 1.0;
-        c5.insets = new Insets(10, 5, -40, 5);
-        panel.add(resultLabel, c5);
+        c5.insets = new Insets(90, 170, -40, 5);
+        panel.add(comboBox2, c5);
+
+        GridBagConstraints c6 = new GridBagConstraints();
+        c6.gridx = 0;
+        c6.gridy = 1;
+        c6.gridwidth = 2;
+        c6.gridheight = 1;
+        c6.anchor = GridBagConstraints.ABOVE_BASELINE_LEADING;
+        c6.weightx = 1.0;
+        c6.insets = new Insets(10, 5, -40, 5);
+        panel.add(resultLabel, c6);
 
         frame.setContentPane(panel);
     }
 
     private void initEvents() {
-        button.addActionListener(e -> {
+        convertButton.addActionListener(e -> {
             try {
-                double temperature = Double.parseDouble(textField.getText());
+                double temperature = Double.parseDouble(entryTextField.getText());
                 resultLabel.setForeground(Color.BLACK);
 
                 for (ViewListener listener : listeners) {
                     listener.convertTemperature(temperature);
                 }
 
-                if (comboBox.getSelectedItem() == "FromCelsiusToKelvin") {
-                    resultLabel.setText(String.valueOf(new ConvertToKelvin("FromCelsiusToKelvin").convertToCelsius(temperature)));
-
-                } else if (comboBox.getSelectedItem() == "FromKelvinToCelsius") {
-                    resultLabel.setText(String.valueOf(new ConvertToKelvin("FromKelvinToCelsius").convertFromCelsius(temperature)));
-
-                } else if (comboBox.getSelectedItem() == "FromCelsiusToFahrenheit") {
-                    resultLabel.setText(String.valueOf(new ConvertToFahrenheit("FromCelsiusToFahrenheit").convertToCelsius(temperature)));
-
-                } else if (comboBox.getSelectedItem() == "FromFahrenheitToCelsius") {
-                    resultLabel.setText(String.valueOf(new ConvertToFahrenheit("FromFahrenheitToCelsius").convertFromCelsius(temperature)));
-
-                } else if (comboBox.getSelectedItem() == "FromKelvinToFahrenheit") {
-
-                    resultLabel.setText(String.valueOf(new ConvertToFahrenheit("FromCelsiusToFahrenheit").convertToCelsius(
-                            new ConvertToKelvin("FromKelvinToCelsius").convertFromCelsius(temperature))));
-
-                } else if (comboBox.getSelectedItem() == "FromFahrenheitToKelvin") {
-
-                    resultLabel.setText(String.valueOf(new ConvertToKelvin("FromCelsiusToKelvin").convertToCelsius(
-                            new ConvertToFahrenheit("FromFahrenheitToCelsius").convertFromCelsius(temperature))));
-                }
+                TemperatureConverter converter1 = (TemperatureConverter) comboBox1.getSelectedItem();
+                TemperatureConverter converter2 = (TemperatureConverter) comboBox2.getSelectedItem();
+                assert converter1 != null;
+                assert converter2 != null;
+                resultLabel.setText(String.valueOf(converter2.convertFromCelsius(converter1.convertToCelsius(temperature))));
 
             } catch (NumberFormatException ex) {
                 resultLabel.setForeground(Color.RED);
@@ -149,30 +141,9 @@ public class FrameView implements View {
     }
 
     @Override
-    public void addTemperatureConverter(TemperatureConverter converter, String key) {
-
-        map.put("FromCelsiusToKelvin", ConvertToKelvin.class.getSimpleName());
-        map.put("FromKelvinToCelsius", ConvertToKelvin.class.getSimpleName());
-        map.put("FromCelsiusToFahrenheit", ConvertToFahrenheit.class.getSimpleName());
-        map.put("FromFahrenheitToCelsius", ConvertToFahrenheit.class.getSimpleName());
-        map.put("FromKelvinToFahrenheit", ConvertToKelvin.class.getSimpleName());
-        map.put("FromFahrenheitToKelvin", ConvertToKelvin.class.getSimpleName());
-
-
-        Optional<String> result = map.entrySet()
-                .stream()
-                .filter(entry -> converter.getClass().getSimpleName().equals(entry.getValue()))
-                .map(Map.Entry::getKey)
-                .findFirst();
-
-        if (result.isPresent()) {
-            comboBox.addItem(key);
-        }
-
-        if (!map.keySet().contains(key)) {
-            JOptionPane.showMessageDialog(null, "The Program has an invalid key! Check the keys!",
-                    "Warning!", JOptionPane.WARNING_MESSAGE);
-        }
+    public void addTemperatureConverter(TemperatureConverter converter) {
+        comboBox1.addItem(converter);
+        comboBox2.addItem(converter);
     }
 
     @Override
