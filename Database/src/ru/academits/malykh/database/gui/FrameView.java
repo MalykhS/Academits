@@ -2,13 +2,9 @@ package ru.academits.malykh.database.gui;
 
 import ru.academits.malykh.database.common.View;
 
-import javax.lang.model.element.Name;
 import javax.swing.*;
 import java.awt.*;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class FrameView implements View {
     private JFrame frame = new JFrame("Application");
@@ -24,6 +20,8 @@ public class FrameView implements View {
 
     private JTextField textFieldName = new JTextField(10);
     private JTextField textFieldAge = new JTextField(10);
+
+    private Connection connection;
 
     private void createFrame() {
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -120,17 +118,42 @@ public class FrameView implements View {
     }
 
     private void initEvents() {
-        buttonInsert.addActionListener(e ->  {
+        buttonInsert.addActionListener(e -> { //sqljdbc_auth.dll вставить в jre/bin + подключить sqljdbc.jar ctrl+alt+shift+s
+
             try {
-                Class.forName("oracle.jdbc.OracleDriver");
-                Connection connection = DriverManager.getConnection("jdbc:DB_login");
+                Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+                connection = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=DB_login;integratedSecurity=true;");
 
-                String sql = "Insert into DB_login" + "(name, age)" + "values(?,?)";
-
-                PreparedStatement statement = connection.prepareStatement(sql);
-               // statement.setString(1, );
+                PreparedStatement statement = connection.prepareStatement("INSERT INTO Table_2(name, age, profession) VALUES ('Valera', '33', 'pilot')");
+                statement.executeUpdate();
 
             } catch (ClassNotFoundException | SQLException e1) {
+                e1.printStackTrace();
+            }
+        });
+
+        buttonRemove.addActionListener(e -> {
+            try {
+                Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+                connection = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=DB_login;integratedSecurity=true;");
+                PreparedStatement statement = connection.prepareStatement("DELETE FROM Table_2 WHERE name='Ivan'");
+                statement.executeUpdate();
+
+            } catch (SQLException | ClassNotFoundException e1) {
+                e1.printStackTrace();
+            }
+        });
+
+        buttonShow.addActionListener(e -> {
+            try {
+                connection = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=DB_login;integratedSecurity=true;");
+                PreparedStatement statement = connection.prepareStatement("SELECT * FROM Table_2");
+                ResultSet resultSet = statement.executeQuery();
+
+                while (resultSet.next()) {
+                    System.out.printf("%2s %2s \n", resultSet.getString("name"), resultSet.getString("profession"));
+                }
+            } catch (SQLException e1) {
                 e1.printStackTrace();
             }
         });
