@@ -17,9 +17,11 @@ public class FrameView implements View {
 
     private JLabel labelName = new JLabel("Name");
     private JLabel labelAge = new JLabel("Age");
+    private JLabel labelProfession = new JLabel("Profession");
 
     private JTextField textFieldName = new JTextField(10);
     private JTextField textFieldAge = new JTextField(10);
+    private JTextField textFieldProfession = new JTextField(10);
 
     private Connection connection;
 
@@ -92,6 +94,16 @@ public class FrameView implements View {
         constraintsLabelAge.insets = new Insets(170, 50, 250, 10);
         panel.add(labelAge, constraintsLabelAge);
 
+        GridBagConstraints constraintsLabelProfession = new GridBagConstraints();
+        constraintsLabelProfession.gridx = 0;
+        constraintsLabelProfession.gridy = 0;
+        constraintsLabelProfession.gridwidth = 2;
+        constraintsLabelProfession.gridheight = 1;
+        constraintsLabelProfession.anchor = GridBagConstraints.ABOVE_BASELINE_LEADING;
+        constraintsLabelProfession.weightx = 1.0;
+        constraintsLabelProfession.insets = new Insets(170, 50, 150, 10);
+        panel.add(labelProfession, constraintsLabelProfession);
+
         GridBagConstraints constraintsTextFieldName = new GridBagConstraints();
         constraintsTextFieldName.gridx = 0;
         constraintsTextFieldName.gridy = 0;
@@ -114,48 +126,66 @@ public class FrameView implements View {
         constraintsTextFieldAge.insets = new Insets(170, 150, 250, 10);
         panel.add(textFieldAge, constraintsTextFieldAge);
 
+        GridBagConstraints constraintsTextFieldProfession = new GridBagConstraints();
+        constraintsTextFieldProfession.gridx = 0;
+        constraintsTextFieldProfession.gridy = 0;
+        constraintsTextFieldProfession.gridwidth = 2;
+        constraintsTextFieldProfession.gridheight = 1;
+        constraintsTextFieldProfession.anchor = GridBagConstraints.ABOVE_BASELINE_LEADING;
+        constraintsTextFieldProfession.fill = GridBagConstraints.HORIZONTAL;
+        constraintsTextFieldProfession.weightx = 1.0;
+        constraintsTextFieldProfession.insets = new Insets(170, 150, 150, 10);
+        panel.add(textFieldProfession, constraintsTextFieldProfession);
+
         frame.setContentPane(panel);
+    }
+
+    private void statement(String string) {
+        try {
+            connection.prepareStatement(string).executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void getConnection() {
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            connection = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=DB_login;integratedSecurity=true;");
+        } catch (ClassNotFoundException | SQLException e1) {
+            e1.printStackTrace();
+        }
     }
 
     private void initEvents() {
         buttonInsert.addActionListener(e -> { //sqljdbc_auth.dll вставить в jre/bin + подключить sqljdbc.jar ctrl+alt+shift+s
 
-            try {
-                Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-                connection = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=DB_login;integratedSecurity=true;");
-
-                PreparedStatement statement = connection.prepareStatement("INSERT INTO Table_2(name, age, profession) VALUES ('Valera', '33', 'pilot')");
-                statement.executeUpdate();
-
-            } catch (ClassNotFoundException | SQLException e1) {
-                e1.printStackTrace();
-            }
+            String insert = "INSERT INTO Table_2(name, age, profession) VALUES " +
+                    "('" + textFieldName.getText() + "', '" + textFieldAge.getText() + "', '" + textFieldProfession.getText() + "')";
+            getConnection();
+            statement(insert);
         });
 
         buttonRemove.addActionListener(e -> {
-            try {
-                Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-                connection = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=DB_login;integratedSecurity=true;");
-                PreparedStatement statement = connection.prepareStatement("DELETE FROM Table_2 WHERE name='Ivan'");
-                statement.executeUpdate();
-
-            } catch (SQLException | ClassNotFoundException e1) {
-                e1.printStackTrace();
-            }
+            String remove = "DELETE FROM Table_2 WHERE age='" + textFieldAge.getText() + "'";
+            getConnection();
+            statement(remove);
         });
 
         buttonShow.addActionListener(e -> {
             try {
-                connection = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=DB_login;integratedSecurity=true;");
-                PreparedStatement statement = connection.prepareStatement("SELECT * FROM Table_2");
+                String show = "SELECT * FROM Table_2";
+                PreparedStatement statement = connection.prepareStatement(show);
                 ResultSet resultSet = statement.executeQuery();
 
                 while (resultSet.next()) {
-                    System.out.printf("%2s %2s \n", resultSet.getString("name"), resultSet.getString("profession"));
+                        System.out.printf("%2s %2d %2s \n", resultSet.getString("name"), resultSet.getInt("age"),
+                                resultSet.getString("profession"));
+                    }
+                } catch(SQLException e1){
+                    e1.printStackTrace();
                 }
-            } catch (SQLException e1) {
-                e1.printStackTrace();
-            }
+
         });
     }
 
